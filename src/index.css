@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme
+.light {
+  background-color: #f0f8ff;
+  color: #000;
+}
+
+.dark {
+  background-color: #001f3f;
+  color: #fff;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #4b79a1;
+}
+
+.theme-switcher {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.standings-container {
+  padding: 1rem;
+}
+
+.tabs button {
+  padding: 1rem;
+  border: none;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.tabs .active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.standings-table th, .standings-table td {
+  padding: 1rem;
+  text-align: center;
+}
+
+.standings-table img.team-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.glossy {
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  background: linear-gradient(to bottom, #e0e0e0, #f9f9f9);
+  border-radius: 10px;
+} */
+
+
+
+/* .standings-container {
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.standings-table th, .standings-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.standings-table th {
+  background-color: #3490dc;
+  color: white;
+}
+
+.standings-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.division {
+  margin-bottom: 30px;
+} */
+
+
+
+
+:root {
+  --clr-dark-a0: #000000;
+  --clr-light-a0: #ffffff;
+
+  /* Dark theme primary colors */
+  --clr-primary-a0: #bff538;
+  --clr-primary-a10: #c8f656;
+  --clr-primary-a20: #d0f76f;
+  --clr-primary-a30: #d8f985;
+  --clr-primary-a40: #e0fa9a;
+  --clr-primary-a50: #e7fbaf;
+
+  /* Dark theme surface colors */
+  --clr-surface-a0: #121212;
+  --clr-surface-a10: #282828;
+  --clr-surface-a20: #3f3f3f;
+  --clr-surface-a30: #575757;
+  --clr-surface-a40: #717171;
+  --clr-surface-a50: #8b8b8b;
+
+  /* Dark theme tonal surface colors */
+  --clr-surface-tonal-a0: #222519;
+  --clr-surface-tonal-a10: #37392e;
+  --clr-surface-tonal-a20: #4d4f45;
+  --clr-surface-tonal-a30: #64665c;
+  --clr-surface-tonal-a40: #7c7e75;
+  --clr-surface-tonal-a50: #94968f;
+}
+
+.bg-primary {
+  color: var(--clr-primary-a50);
+  background-color: var(--clr-surface-a0);
+}
+
+
+.trending-news-item {
+  padding: 10px 20px;
+  background-color: #333; /* Dark background for the news card */
+  color: white; /* White text */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.trending-news-item:hover {
+  background-color: #c8f656; /* Primary color on hover */
+  color: black; /* Change text color to black on hover */
+}
+
+
+.sidebar-team-item {
+  padding: 10px 20px;
+  background-color: #333; /* Default dark background */
+  color: white; /* White text */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.sidebar-team-item:hover {
+  background-color: #c8f656; /* Primary color on hover */
+  color: black; /* Change text color to black on hover */
+}
+ 
+
+.sidebar-team-item img {
+  width: 30px; /* Set size for the team logo */
+  height: 30px;
+  object-fit: cover;
+  border-radius: 5px; /* Optional: Add rounded corners for logos */
+}
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
