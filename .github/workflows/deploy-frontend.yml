@@ -23,7 +23,6 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          cd frontend
           npm install
           npm run build
 
@@ -35,14 +34,16 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           source: "frontend/build/*"
           target: "dunk-metrics/frontend"
+          port: 22
+          args: "-v"
 
-      - name: Restart Frontend on VPS
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            cd dunk-metrics/frontend
-            docker compose down
-            docker compose up -d --build
+      # - name: Restart Frontend on VPS
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: ${{ secrets.VPS_HOST }}
+      #     username: ${{ secrets.VPS_USER }}
+      #     key: ${{ secrets.VPS_SSH_KEY }}
+      #     script: |
+      #       cd dunk-metrics/frontend
+      #       docker compose down
+      #       docker compose up -d --build
