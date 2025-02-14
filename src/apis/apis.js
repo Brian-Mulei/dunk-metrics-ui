@@ -2,7 +2,7 @@ import axios from 'axios';
  
 export const fetchStandings = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/teams/conference/group');
+    const response = await axios.get('https://dunkmetrics.mulei.dev/api/teams/conference/group');
     return response.data;
   } catch (error) {
     console.error('Error fetching standings:', error);
@@ -12,7 +12,7 @@ export const fetchStandings = async () => {
 
 
 
-const API_BASE_URL = "http://localhost:8080"; // Replace with your API base URL
+const API_BASE_URL = "https://dunkmetrics.mulei.dev/api"; // Replace with your API base URL
 
 const api = axios.create({
   baseURL: API_BASE_URL,
