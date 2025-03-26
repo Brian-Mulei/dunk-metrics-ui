@@ -102,10 +102,12 @@ const MatchComponent = ({ game, isLong = true }) => {
         </div>
       </div>
 
+
       {isLong &&
         <div>
           {/* Line Scores */}
-          <div className="p-4 border-t">
+
+          {/* <div className="p-4 border-t">
             <div className="grid grid-cols-[auto_1fr_auto] gap-4 text-center items-center">
               <h3 className="font-semibold text-right">{homeLogoCode}</h3>
               <div className="grid grid-cols-4 gap-2">
@@ -128,7 +130,7 @@ const MatchComponent = ({ game, isLong = true }) => {
               </div>
               <h3 className="font-semibold text-left">{awayLogoCode}</h3>
             </div>
-          </div>
+          </div> */}
 
           {/* Game Status */}
           <div className="p-2 sm:p-4 bg-surface-a10 text-center text-xs sm:text-sm">
