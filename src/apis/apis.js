@@ -12,7 +12,7 @@ export const fetchStandings = async () => {
 
 
 
-const API_BASE_URL = "http://https://vg4sk0404oookw084swk44ck.mulei.dev"; // Replace with your API base URL
+const API_BASE_URL = "https://vg4sk0404oookw084swk44ck.mulei.dev"; // Replace with your API base URL
 
 const api = axios.create({
   baseURL: API_BASE_URL,
