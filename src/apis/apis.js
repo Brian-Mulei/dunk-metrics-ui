@@ -2,7 +2,7 @@ import axios from 'axios';
  
 export const fetchStandings = async () => {
   try {
-    const response = await axios.get('http://vg4sk0404oookw084swk44ck.65.21.3.217.sslip.io/teams/conference/group');
+    const response = await axios.get('https://vg4sk0404oookw084swk44ck.mulei.dev/teams/conference/group');
     return response.data;
   } catch (error) {
     console.error('Error fetching standings:', error);
@@ -12,7 +12,7 @@ export const fetchStandings = async () => {
 
 
 
-const API_BASE_URL = "http://vg4sk0404oookw084swk44ck.65.21.3.217.sslip.io"; // Replace with your API base URL
+const API_BASE_URL = "http://https://vg4sk0404oookw084swk44ck.mulei.dev"; // Replace with your API base URL
 
 const api = axios.create({
   baseURL: API_BASE_URL,
