@@ -68,15 +68,40 @@ function TeamPage() {
 
 
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
+    // Ignore responses for a team the user has already navigated away from
+    let cancelled = false;
+
     const loadData = async () => {
-      const data = await getTeamDetails(id);
-      console.log(data.data)
-      setTeamData(data.data);
-      setLoading(false);
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getTeamDetails(id);
+        if (!cancelled) setTeamData(data.data);
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.response?.status === 404
+            ? "Team not found."
+            : "Couldn't load team details. Please try again later.");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     };
     loadData();
+
+    return () => { cancelled = true; };
   }, [id]);
+
+  if (error) {
+    return (
+      <div className="p-6 bg-surface-a0 rounded-lg shadow-lg text-light-a0">
+        {error}
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -130,10 +155,10 @@ function TeamPage() {
               <strong>Away:</strong> {teamData.awayRecord}
             </p> */}
             <p className="text-light-a0">
-              <strong>Conference:</strong> {teamData.conference} ({teamData.conferenceRank})
+              <strong>Conference:</strong> {teamData.conference} ({teamData.conferenceRank ?? "-"})
             </p>
             <p className="text-light-a0">
-              <strong>Division:</strong> {teamData.division} ({teamData.divisionRank})
+              <strong>Division:</strong> {teamData.division} ({teamData.divisionRank ?? "-"})
             </p>
           </div>
         </div>
