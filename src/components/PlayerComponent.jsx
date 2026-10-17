@@ -1,84 +1,61 @@
+import PlayerHeadshot from "./PlayerHeadshot";
+import { formatPct, formatStat } from "../utils/StatFormatter";
 
-import React from "react";
+const positionMap = {
+  'F': "Forward",
+  'G': "Guard",
+  'C': "Center",
+  'F-G': "Guard/Forward",
+  'G-F': "Guard/Forward",
+  'C-F': "Center/Forward",
+  'F-C': "Forward/Center",
+};
 
-const PlayerComponent = ({ player }) => {
-  // Map position abbreviation to full word
-  const positionMap = {
-    'F': "Forward",
-   'G': "Guard",
-    'C': "Center",
-    'F-G':"Guard/Forward",
-    'G-F':"Guard/Forward",
-  };
+const PlayerComponent = ({ player, stats }) => {
+  const name = `${player.firstName} ${player.lastName}`;
 
-//   return (
-//     <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white border border-gray-200">
-//       <div className="px-6 py-4">
-//         <div className="flex items-center justify-between">
-//           <div className="font-bold text-xl text-gray-800">
-//             {player.firstName} {player.lastName}
-//           </div>
-//           <div className="text-gray-600 text-sm">#{player.number}</div>
-//         </div>
-//         <div className="mt-2 text-gray-600">
-//           <p>
-//             <span className="font-semibold">Position:</span>{" "}
-//             {positionMap[player.position]}
-//           </p>
-//           <p>
-//             <span className="font-semibold">Nationality:</span>{" "}
-//             {player.nationality}
-//           </p>
-//           <p>
-//             <span className="font-semibold">Height:</span> {player.heightUs} (
-//             {player.heightMetric})
-//           </p>
-//           <p>
-//             <span className="font-semibold">Weight:</span> {player.weightUs} lbs (
-//             {player.weightMetric} kg)
-//           </p>
-//           <p>
-//             <span className="font-semibold">Years Pro:</span> {player.yearsPro}
-//           </p>
-//           <p>
-//             <span className="font-semibold">Rookie Year:</span> {player.rookieYear}
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-
-return (
-    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-surface-a10  border border-gray-200 transform transition-transform duration-700 hover:rotate-x-15 -rotate-y-30">
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="font-bold text-xl text-primary-a20">
-            {player.firstName} {player.lastName}
+  return (
+    <div className="h-full rounded-lg overflow-hidden shadow-lg bg-surface-a10 border border-surface-a30">
+      <div className="px-4 py-4 sm:px-6">
+        <div className="flex items-center gap-3">
+          <PlayerHeadshot name={name} url={stats?.headshotUrl} className="w-14 h-14" />
+          <div className="min-w-0 flex-1">
+            <div className="font-bold text-lg text-primary-a20 truncate">{name}</div>
+            <div className="text-gray-400 text-sm">
+              #{player.number} · {positionMap[player.position] ?? player.position}
+            </div>
           </div>
-          <div className="text-gray-600 text-sm">#{player.number}</div>
         </div>
-        <div className="mt-2 text-white">
+
+        {stats && (
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center" data-testid="player-stats">
+            <div className="rounded bg-surface-a0 py-1">
+              <div className="text-xs text-gray-400">PTS</div>
+              <div className="font-semibold text-white">{formatStat(stats.points)}</div>
+            </div>
+            <div className="rounded bg-surface-a0 py-1">
+              <div className="text-xs text-gray-400">TS%</div>
+              <div className="font-semibold text-white">{formatPct(stats.trueShootingPct)}</div>
+            </div>
+            <div className="rounded bg-surface-a0 py-1">
+              <div className="text-xs text-gray-400">AST/TO</div>
+              <div className="font-semibold text-white">{formatStat(stats.assistToTurnover, 2)}</div>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-3 text-sm text-white space-y-0.5">
           <p>
-            <span className="font-semibold">Position:</span>{" "}
-            {positionMap[player.position]}
+            <span className="font-semibold">Nationality:</span> {player.nationality}
           </p>
           <p>
-            <span className="font-semibold">Nationality:</span>{" "}
-            {player.nationality}
+            <span className="font-semibold">Height:</span> {player.heightUs} ({player.heightMetric})
           </p>
           <p>
-            <span className="font-semibold">Height:</span> {player.heightUs} (
-            {player.heightMetric})
+            <span className="font-semibold">Weight:</span> {player.weightUs} lbs ({player.weightMetric} kg)
           </p>
           <p>
-            <span className="font-semibold">Weight:</span> {player.weightUs} lbs (
-            {player.weightMetric} kg)
-          </p>
-          <p>
-            <span className="font-semibold">Years Pro:</span> {player.yearsPro}
-          </p>
-          <p>
-            <span className="font-semibold">Rookie Year:</span> {player.rookieYear}
+            <span className="font-semibold">Years Pro:</span> {player.yearsPro} · <span className="font-semibold">Rookie:</span> {player.rookieYear}
           </p>
         </div>
       </div>
@@ -86,23 +63,4 @@ return (
   );
 };
 
-// Sample player data
-const player = {
-  id: 322,
-  firstName: "Kevon",
-  lastName: "Looney",
-  nationality: "USA",
-  position: "F",
-  number: 5,
-  yearsPro: 6,
-  rookieYear: 2015,
-  weightMetric: 100.7,
-  weightUs: 222,
-  heightMetric: "2.06 Metres",
-  heightUs: "6Ft 9 Inches",
-};
-
- 
-
- 
 export default PlayerComponent;

@@ -69,18 +69,16 @@ const StandingsTable = () => {
             : allTeams.sort((a, b) => a.divisionRank - b.divisionRank);
 
         return sortedTeams.map((team, index) => (
-            <tr   onClick={() => handleClick(team.teamId)}  key={team.teamName} className='bg-surface-a0 text-white
-            
-            hover:text-surface-a0 hover:bg-primary-a0'>
+            <tr   onClick={() => handleClick(team.teamId)}  key={team.teamName} className='cursor-pointer bg-surface-a0 text-white hover:text-surface-a0 hover:bg-primary-a0'>
                  <td className="p-2   text-center">
                     {isConferenceMode ? team.conferenceRank : team.divisionRank}
                 </td>
-                <td className="py-2 px-4  flex items-center">
-                        <img src={getTeamLogoUrl(team.teamId)} alt={team.teamName}className="w-8 h-8 mr-2" />
+                <td className="py-2 px-1 sm:px-4">
+                        <img src={getTeamLogoUrl(team.teamId)} alt={team.teamName} loading="lazy" className="w-7 h-7 sm:w-8 sm:h-8" />
                        
                       </td>
                 <td className="p-2  ">{team.teamName}</td>
-                <td className="p-2    text-center">{team.wins}-{team.losses}</td>               
+                <td className="p-2 text-center whitespace-nowrap">{team.wins}-{team.losses}</td>               
             </tr>
         ));
     };
@@ -88,13 +86,12 @@ const StandingsTable = () => {
 
     return (
         < >
-       <div className="w-5/5 p-4 flex flex-col justify-between bg-tonal-a30">
-          {/* Conference Switcher */}
-          <div className="p-4 bg-dark">
-            <div className="flex justify-center mb-4">
+       <div className="sm:p-4 flex flex-col">
+          <div className="pb-4">
+            <div className="flex justify-center">
                  <button 
                      onClick={() => setViewMode('conference')} 
-                     className={`px-4 py-2 mr-2 ${viewMode === 'conference' 
+                     className={`px-3 sm:px-4 py-2 mr-2 rounded text-sm sm:text-base ${viewMode === 'conference' 
                          ? 'bg-primary-a0 text-dark-a0' 
                        : 'bg-gray-200 text-gray-800'}`}
                  >
@@ -102,7 +99,7 @@ const StandingsTable = () => {
                  </button>
                  <button 
                       onClick={() => setViewMode('division')} 
-                     className={`px-4 py-2 ${viewMode === 'division' 
+                     className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base ${viewMode === 'division' 
                         ?  'bg-primary-a0 text-dark-a0' 
                          : 'bg-gray-200 text-gray-800'}`}
                 >
@@ -112,11 +109,11 @@ const StandingsTable = () => {
              </div>
            
           {/* Table */}
-          <div className="h-[46rem] lg:h-[54rem] overflow-y-auto no-scrollbar  shadow-lg rounded-lg  text-gray-900 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="rounded-lg text-gray-900">
+          <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4">
                  {Object.entries(standings).map(([conference, divisions]) => (
-                     <div key={conference} className="bg-white shadow-lg rounded-lg">
-                         <h2 className="text-2xl font-bold p-4 text-primary-a0 bg-surface-a0">{conference} Conference</h2>
+                     <div key={conference} className="bg-surface-a0 shadow-lg rounded-lg overflow-hidden">
+                         <h2 className="text-xl sm:text-2xl font-bold p-3 sm:p-4 text-primary-a0 bg-surface-a0">{conference} Conference</h2>
                          {viewMode === 'division' ? 
                          (     <div key={conference} className="bg-surface-a0 shadow-lg rounded-lg">
                                       {Object.entries(divisions).map(([division, teams]) => (

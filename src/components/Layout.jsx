@@ -1,56 +1,76 @@
-import Navbar from "./Navbar";
+import Navbar, { NAV_LINKS } from "./Navbar";
 import TeamSidebar from "./TeamSidebar";
 import News from "./NewsSection";
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { Suspense, useEffect, useState } from "react";
+
+const PageFallback = () => (
+  <div className="space-y-4 p-4">
+    <div className="h-8 w-48 rounded bg-surfaceTonal-a10 animate-pulse"></div>
+    <div className="h-6 w-full rounded bg-surfaceTonal-a10 animate-pulse"></div>
+    <div className="h-6 w-full rounded bg-surfaceTonal-a10 animate-pulse"></div>
+  </div>
+);
 
 const Layout = () => {
   const [showTeamSidebar, setShowTeamSidebar] = useState(false);
-  const [showNews, setShowNews] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const location = useLocation();
 
-  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    setShowTeamSidebar(false);
+    setShowMenu(false);
+  }, [location.pathname]);
 
   return (
-   
+    <div className="h-[100dvh] flex flex-col bg-surface-a0 text-light-a0 overflow-hidden">
+      <Navbar
+        onToggleTeamSidebar={() => {
+          setShowMenu(false);
+          setShowTeamSidebar(!showTeamSidebar);
+        }}
+        onToggleMenu={() => {
+          setShowTeamSidebar(false);
+          setShowMenu(!showMenu);
+        }}
+      />
 
+      {showMenu && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-surface-a30 p-4 flex flex-col space-y-1 shadow-lg z-50">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.to} to={link.to} className="rounded px-2 py-2 hover:text-primary-a10">
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
 
-    <div className="h-screen flex flex-col bg-surface-a0 text-light-a0 overflow-hidden">
-  {/* Top Navbar */}
-  <Navbar
-    onToggleTeamSidebar={() => setShowTeamSidebar(!showTeamSidebar)}
-    onToggleMenu={() => setShowMenu(!showMenu)}
+      <div className="relative flex flex-1 min-h-0">
+        {showTeamSidebar && (
+          <div
+            className="lg:hidden fixed inset-x-0 top-16 bottom-0 z-30 bg-black/60"
+            onClick={() => setShowTeamSidebar(false)}
+            data-testid="sidebar-backdrop"
+          />
+        )}
 
-    
-  />
+        <aside
+          className={`fixed top-16 bottom-0 left-0 z-40 w-72 max-w-[85vw] bg-surface-a10 transform transition-transform duration-300 lg:static lg:z-auto lg:w-64 lg:translate-x-0 ${showTeamSidebar ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          <TeamSidebar />
+        </aside>
 
-  {showMenu && (
-    <div className="md:hidden absolute top-16 left-0 w-full bg-surface-a30 p-4 flex flex-col space-y-2 shadow-lg z-50">
-      <Link to="/" className="hover:text-primary-a10" onClick={() => setShowMenu(false)}>Home</Link>
-      <Link to="/standings" className="hover:text-primary-a10" onClick={() => setShowMenu(false)}>Standings</Link>
-      <Link to="/news" className="hover:text-primary-a10" onClick={() => setShowMenu(false)}>News</Link>
+        <main className="flex-1 min-w-0 overflow-y-auto bg-surface-a20 p-3 sm:p-4">
+          <Suspense fallback={<PageFallback />}>
+            <Outlet />
+          </Suspense>
+        </main>
+
+        <aside className="hidden xl:block w-80 shrink-0 overflow-y-auto no-scrollbar bg-surface-a10 p-4">
+          <News />
+        </aside>
+      </div>
     </div>
-  )}
-
-  {/* Main Content (Three-Column Layout) */}
-  <div className="flex flex-grow overflow-hidden">
-    {/* Left Sidebar (Teams List) */}
-    <div className={`fixed inset-y-0 left-0 w-64 bg-surface-a10 p-4 transform transition-transform duration-300 md:relative md:w-1/6 md:block ${showTeamSidebar ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}> 
-      <TeamSidebar  onToggleTeamSidebar={() => setShowTeamSidebar(!showTeamSidebar)}/>
-    </div>
-
-    {/* Middle Section (Page Content) */}
-    <div className={`flex-1 bg-surface-a20 p-4 overflow-hidden ${showTeamSidebar || showNews ? "md:w-4/6" : "w-full"}`}>
-      <Outlet />
-    </div>
-
-    {/* Right Sidebar (Trending News) */}
-    <div className={`fixed inset-y-0 right-0 w-64 bg-surface-a10 p-4 transform transition-transform duration-300 md:relative md:w-1/6 md:block ${showNews ? "translate-x-0" : "translate-x-full"} md:translate-x-0`}>
-      <News />
-    </div>
-  </div>
-</div>
   );
 };
 

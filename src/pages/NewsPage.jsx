@@ -11,7 +11,6 @@ const NewsPage = () => {
     const fetchNews = async () => {
         const response = await getNews(15); // Replace with actual API endpoint
         setNews(response.data.articles);
-        console.log(news)
 
     };
     useEffect(() => {
@@ -59,17 +58,16 @@ const NewsPage = () => {
         );
     }
     return (
-        <div className="mb-18 h-[62rem] space-y-4 overflow-y-auto no-scrollbar">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
             {news.map((news, index) => (
                 <div
                     key={index}
-                    className="trending-news-item cursor-pointer"
-
+                    className="trending-news-item cursor-pointer rounded-lg"
                 >
                     <a href={news.link} target="_blank" rel="noopener noreferrer">
 
 
-                        <img src={news.imageUrl} alt="news" className="w-42 h-32 object-cover"/>
+                        <img src={news.imageUrl} alt="" loading="lazy" className="mb-2 w-full aspect-video rounded object-cover"/>
 
                         <h3 className="text-lg font-semibold">{news.headline}</h3>
                         <p className="text-sm">{news.description}</p>

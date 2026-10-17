@@ -57,7 +57,7 @@ const MatchComponent = ({ game, isLong = true }) => {
 
 
   return (
-    <div className="max-w-4xl mx-auto bg-surface-a10  shadow-lg rounded-lg overflow-hidden my-4 p-2 sm:p-4">
+    <div className="w-full bg-surface-a10 shadow-lg rounded-lg overflow-hidden my-2 sm:my-3 p-2 sm:p-4">
       {/* Game Header */}
       <div className="p-2 sm:p-4 border-b text-center text-white text-sm sm:text-base">
  
@@ -70,34 +70,36 @@ const MatchComponent = ({ game, isLong = true }) => {
       {/* Teams and Scores */}
       <div className="flex items-center justify-between p-2 sm:p-4 text-xs sm:text-lg">
         {/* Home Team */}
-        <div className="flex items-center"   onClick={() => handleClick(homeTeamId)} >
+        <div className="flex min-w-0 flex-1 items-center cursor-pointer" onClick={() => handleClick(homeTeamId)} >
           <img
+            loading="lazy"
             src={homeLogoUrl}
             alt={`${homeTeam} logo`}
-            className="w-8 h-8 sm:w-12 sm:h-12 mr-2 sm:mr-4"
+            className="w-8 h-8 sm:w-12 sm:h-12 shrink-0 mr-2 sm:mr-4"
           />
-          <span className="font-semibold text-primary-a20">
+          <span className="font-semibold text-primary-a20 truncate">
             {isSmallScreen || !isLong ? homeLogoCode : homeTeam}
           </span>
         </div>
 
         {/* Scores */}
-        <div className="flex items-center">
-          <span className={`text-2xl font-bold mx-4 ${tieStyle || homeStyle}`}>{homeTeamScore}</span>
-          <span className="text-2xl font-bold mx-4">-</span>
-          <span className={`text-2xl font-bold mx-4 ${tieStyle || awayStyle}`}>{awayTeamScore}</span>
+        <div className="flex shrink-0 items-center">
+          <span className={`text-xl sm:text-2xl font-bold mx-2 sm:mx-4 ${tieStyle || homeStyle}`}>{homeTeamScore}</span>
+          <span className="text-xl sm:text-2xl font-bold mx-1 sm:mx-4">-</span>
+          <span className={`text-xl sm:text-2xl font-bold mx-2 sm:mx-4 ${tieStyle || awayStyle}`}>{awayTeamScore}</span>
 
         </div>
 
         {/* Away Team */}
-        <div className="flex items-center"   onClick={() => handleClick(awayTeamId)}>
-          <span className="font-semibold mr-2 sm:mr-4">
+        <div className="flex min-w-0 flex-1 items-center justify-end cursor-pointer" onClick={() => handleClick(awayTeamId)}>
+          <span className="font-semibold mr-2 sm:mr-4 truncate">
             {isSmallScreen || !isLong ? awayLogoCode : awayTeam}
           </span>
           <img
+            loading="lazy"
             src={awayLogoUrl}
             alt={`${awayTeam} logo`}
-            className="w-8 h-8 sm:w-12 sm:h-12"
+            className="w-8 h-8 sm:w-12 sm:h-12 shrink-0"
           />
         </div>
       </div>
