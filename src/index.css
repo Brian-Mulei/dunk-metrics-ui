@@ -109,12 +109,12 @@
   --clr-dark-a0: #070A12;
   --clr-light-a0: #E9EDF5;
 
-  --clr-primary-a0: #FF7A2F;
-  --clr-primary-a10: #FF8A47;
-  --clr-primary-a20: #FF9B61;
-  --clr-primary-a30: #FFAD7D;
-  --clr-primary-a40: #FFC09B;
-  --clr-primary-a50: #FFD3B9;
+  --clr-primary-a0: #2BD576;
+  --clr-primary-a10: #46DC88;
+  --clr-primary-a20: #62E29A;
+  --clr-primary-a30: #7FE8AD;
+  --clr-primary-a40: #9DEEC1;
+  --clr-primary-a50: #BBF4D5;
 
   --clr-surface-a0: #131A2B;
   --clr-surface-a10: #18213A;
@@ -182,7 +182,7 @@ body {
 
 /* scoreboard digits */
 .scoreboard {
-  font-family: "Big Shoulders Display", Barlow, sans-serif;
+  font-family: Outfit, Inter, sans-serif;
   font-variant-numeric: tabular-nums;
   color: #FFC247;
   text-shadow: 0 0 12px rgba(255, 194, 71, 0.35);

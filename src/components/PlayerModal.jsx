@@ -88,7 +88,7 @@ const PlayerModal = ({ espnPlayerId, preview, bio, onClose }) => {
         <div className="sticky top-0 z-10 flex items-center gap-4 border-b border-surface-a40 bg-surface-a0 p-4 sm:p-5">
           <PlayerHeadshot name={current?.name ?? ""} url={current?.headshotUrl} className="w-16 h-16 sm:w-20 sm:h-20" />
           <div className="min-w-0 flex-1">
-            <h2 id="player-modal-title" className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-wide truncate">
+            <h2 id="player-modal-title" className="font-display tracking-tight text-2xl sm:text-3xl font-bold truncate">
               {current?.name}
             </h2>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 text-sm text-muted">

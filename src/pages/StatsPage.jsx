@@ -5,6 +5,7 @@ import { getTeamLogoUrl } from "../utils/LogoPicker";
 import { formatPct, formatStat } from "../utils/StatFormatter";
 import PlayerHeadshot from "../components/PlayerHeadshot";
 import PlayerModal from "../components/PlayerModal";
+import SeasonSelect from "../components/SeasonSelect";
 
 const COLUMNS = [
   { key: "gamesPlayed", label: "GP", title: "Games played", format: (v) => formatStat(v, 0) },
@@ -31,6 +32,7 @@ const StatsPage = () => {
   const [sort, setSort] = useState("points");
   const [teamId, setTeamId] = useState("");
   const [minGames, setMinGames] = useState(10);
+  const [season, setSeason] = useState("");
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -38,7 +40,7 @@ const StatsPage = () => {
   useEffect(() => {
     let cancelled = false;
     setError(null);
-    getStatsLeaderboard({ sort, teamId: teamId || undefined, minGames, size: 50 })
+    getStatsLeaderboard({ sort, teamId: teamId || undefined, minGames, size: 50, season: season || undefined })
       .then((response) => {
         if (!cancelled) setData(response.data);
       })
@@ -48,7 +50,7 @@ const StatsPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [sort, teamId, minGames]);
+  }, [sort, teamId, minGames, season]);
 
   const sortColumn = COLUMNS.find((c) => c.key === sort);
   const players = data?.players ?? [];
@@ -57,12 +59,13 @@ const StatsPage = () => {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">Player <span className="text-primary-a0">Stats</span></h1>
+          <h1 className="font-display tracking-tight text-3xl sm:text-4xl font-bold">Player <span className="text-primary-a0">Stats</span></h1>
           <p className="text-sm text-muted">
             {data?.seasonLabel ? `${data.seasonLabel} season · ` : ""}Source: ESPN, updated twice a day
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <SeasonSelect value={season} onChange={setSeason} />
           <label className="flex flex-col text-xs text-muted">
             Team
             <select

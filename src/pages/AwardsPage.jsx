@@ -4,6 +4,7 @@ import { getTeamLogoUrl } from "../utils/LogoPicker";
 import { formatPct, formatStat } from "../utils/StatFormatter";
 import PlayerHeadshot from "../components/PlayerHeadshot";
 import PlayerModal from "../components/PlayerModal";
+import SeasonSelect from "../components/SeasonSelect";
 
 const SHOWN_BY_DEFAULT = 5;
 
@@ -16,7 +17,7 @@ const AwardRace = ({ race, onSelectPlayer }) => {
 
   return (
     <section className="rounded-xl border border-surface-a40 bg-surface-a0 p-4 sm:p-5" aria-labelledby={`race-${race.key}`}>
-      <h2 id={`race-${race.key}`} className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-wide">
+      <h2 id={`race-${race.key}`} className="font-display tracking-tight text-2xl sm:text-3xl font-bold">
         {race.name}
       </h2>
       <p className="mt-1 text-sm text-muted">{race.description}</p>
@@ -39,7 +40,7 @@ const AwardRace = ({ race, onSelectPlayer }) => {
                     <span className={`w-6 shrink-0 text-center font-display text-xl font-bold ${isLeader ? "text-primary-a0" : "text-muted"}`}>
                       {c.rank}
                     </span>
-                    <PlayerHeadshot name={c.player.name} url={c.player.headshotUrl} className={isLeader ? "w-14 h-14" : "w-10 h-10"} />
+                    <PlayerHeadshot name={c.player.name} url={c.player.headshotUrl} className={isLeader ? "w-12 h-12 sm:w-14 sm:h-14" : "w-10 h-10"} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className={`truncate font-semibold ${isLeader ? "text-lg" : ""}`}>{c.player.name}</span>
@@ -57,7 +58,7 @@ const AwardRace = ({ race, onSelectPlayer }) => {
                         ))}
                       </div>
                     </div>
-                    <span className={`scoreboard shrink-0 font-bold ${isLeader ? "text-3xl" : "text-xl"}`} title="Model score">
+                    <span className={`scoreboard shrink-0 font-bold ${isLeader ? "text-2xl sm:text-3xl" : "text-xl"}`} title="Model score">
                       {race.key === "mip" && c.score > 0 ? "+" : ""}{formatStat(c.score)}
                     </span>
                   </div>
@@ -85,21 +86,25 @@ const AwardsPage = () => {
   const [awards, setAwards] = useState(null);
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState(null);
+  const [season, setSeason] = useState("");
 
   useEffect(() => {
     let cancelled = false;
-    getAwards()
+    setAwards(null);
+    setError(null);
+    getAwards(season || undefined)
       .then((response) => !cancelled && setAwards(response.data))
       .catch(() => !cancelled && setError("Couldn't load the award races."));
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [season]);
 
   return (
     <div className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">
+        <h1 className="font-display tracking-tight text-3xl sm:text-4xl font-bold">
           Award <span className="text-primary-a0">Watch</span>
         </h1>
         <p className="mt-1 max-w-3xl text-sm text-muted">
@@ -107,6 +112,8 @@ const AwardsPage = () => {
           Ranked by a DunkMetrics model built on box-score stats, not betting odds or voter polls.
           {awards?.minGames ? ` Players need ${awards.minGames}+ games to qualify.` : ""}
         </p>
+      </div>
+      <SeasonSelect value={season} onChange={setSeason} />
       </div>
 
       {error && <p className="rounded-xl bg-surface-a0 p-4 text-loss">{error}</p>}

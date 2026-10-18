@@ -13,7 +13,7 @@ const Navbar = ({ onToggleTeamSidebar, onToggleMenu }) => {
     <nav className="sticky top-0 z-50 h-16 shrink-0 bg-surface-a30 text-light-a0 px-3 sm:px-4 flex items-center justify-between border-b-2 border-primary-a0">
       <div className="flex items-center gap-3">
         <button onClick={onToggleTeamSidebar} className="lg:hidden px-3 py-1.5 rounded-md border border-surface-a40 bg-surface-a10 text-sm font-semibold">Teams</button>
-        <NavLink to="/" className="font-display text-2xl font-extrabold uppercase tracking-wide whitespace-nowrap">
+        <NavLink to="/" className="font-display tracking-tight text-2xl font-bold whitespace-nowrap">
           Dunk<span className="text-primary-a0">Metrics</span>
         </NavLink>
       </div>
