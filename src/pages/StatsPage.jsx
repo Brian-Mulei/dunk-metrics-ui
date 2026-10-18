@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getStatsLeaderboard } from "../apis/apis";
 import { teamsData } from "../assets/data/teams";
 import { getTeamLogoUrl } from "../utils/LogoPicker";
 import { formatPct, formatStat } from "../utils/StatFormatter";
 import PlayerHeadshot from "../components/PlayerHeadshot";
+import PlayerModal from "../components/PlayerModal";
 
 const COLUMNS = [
   { key: "gamesPlayed", label: "GP", title: "Games played", format: (v) => formatStat(v, 0) },
@@ -33,7 +33,7 @@ const StatsPage = () => {
   const [minGames, setMinGames] = useState(10);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -126,8 +126,10 @@ const StatsPage = () => {
             {players.map((p, index) => (
               <li
                 key={p.espnPlayerId}
-                onClick={() => p.teamId && navigate(`/team/${p.teamId}`)}
-                className="rounded-xl border border-surface-a40 bg-surface-a0 p-3"
+                onClick={() => setSelected(p)}
+                onKeyDown={(e) => e.key === "Enter" && setSelected(p)}
+                tabIndex={0}
+                className="cursor-pointer rounded-xl border border-surface-a40 bg-surface-a0 p-3 hover:border-primary-a0/60"
               >
                 <div className="flex items-center gap-3">
                   <span className="w-6 text-right text-sm text-muted">{index + 1}</span>
@@ -180,7 +182,9 @@ const StatsPage = () => {
                 {players.map((p, index) => (
                   <tr
                     key={p.espnPlayerId}
-                    onClick={() => p.teamId && navigate(`/team/${p.teamId}`)}
+                    onClick={() => setSelected(p)}
+                    onKeyDown={(e) => e.key === "Enter" && setSelected(p)}
+                    tabIndex={0}
                     className="group cursor-pointer border-t border-surface-a40 text-light-a0 hover:bg-surface-a10"
                   >
                     <td className="sticky left-0 bg-surface-a0 group-hover:bg-surface-a10 p-2 text-muted tabular-nums">{index + 1}</td>
@@ -207,6 +211,10 @@ const StatsPage = () => {
             </table>
           </div>
         </>
+      )}
+
+      {selected && (
+        <PlayerModal espnPlayerId={selected.espnPlayerId} preview={selected} onClose={() => setSelected(null)} />
       )}
     </div>
   );

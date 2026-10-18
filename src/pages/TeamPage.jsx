@@ -2,12 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from 'react-router-dom';
 import MatchComponent from '../components/MatchComponent';
 import PlayerComponent from '../components/PlayerComponent';
+import PlayerModal from '../components/PlayerModal';
+import TeamStatsPanel from '../components/TeamStatsPanel';
 import { getTeamDetails, getTeamPlayerStats } from '../apis/apis';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 
 const TABS = [
   { key: "latest", label: "Latest" },
   { key: "players", label: "Players" },
+  { key: "teamStats", label: "Team Stats" },
   { key: "schedule", label: "Schedule" },
 ];
 
@@ -18,6 +21,7 @@ function TeamPage() {
   const [playerStats, setPlayerStats] = useState([]);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("latest");
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -125,15 +129,33 @@ function TeamPage() {
         </section>
       )}
 
+      {activeTab === "teamStats" && (
+        <TeamStatsPanel teamId={id} onSelectPlayer={(stats) => setSelectedPlayer({ stats, bio: null })} />
+      )}
+
       {activeTab === "players" && (
         <section>
           <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-4">Players</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
             {teamData.players.map((player) => (
-              <PlayerComponent key={player.id} player={player} stats={statsByPlayerId.get(player.id)} />
+              <PlayerComponent
+                key={player.id}
+                player={player}
+                stats={statsByPlayerId.get(player.id)}
+                onSelect={(stats) => setSelectedPlayer({ stats, bio: player })}
+              />
             ))}
           </div>
         </section>
+      )}
+
+      {selectedPlayer && (
+        <PlayerModal
+          espnPlayerId={selectedPlayer.stats.espnPlayerId}
+          preview={selectedPlayer.stats}
+          bio={selectedPlayer.bio}
+          onClose={() => setSelectedPlayer(null)}
+        />
       )}
     </div>
   );

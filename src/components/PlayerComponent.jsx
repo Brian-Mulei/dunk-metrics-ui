@@ -11,11 +11,16 @@ const positionMap = {
   'F-C': "Forward/Center",
 };
 
-const PlayerComponent = ({ player, stats }) => {
+const PlayerComponent = ({ player, stats, onSelect }) => {
   const name = `${player.firstName} ${player.lastName}`;
+  const clickable = Boolean(stats && onSelect);
+  const Wrapper = clickable ? "button" : "div";
 
   return (
-    <div className="h-full rounded-xl overflow-hidden bg-surface-a10 border border-surface-a40">
+    <Wrapper
+      {...(clickable ? { type: "button", onClick: () => onSelect(stats), "aria-label": `${name}: view stats` } : {})}
+      className={`block w-full h-full text-left rounded-xl overflow-hidden bg-surface-a10 border border-surface-a40 ${clickable ? "transition-colors hover:border-primary-a0/70" : ""}`}
+    >
       <div className="px-4 py-4 sm:px-6">
         <div className="flex items-center gap-3">
           <PlayerHeadshot name={name} url={stats?.headshotUrl} className="w-14 h-14" />
@@ -26,6 +31,8 @@ const PlayerComponent = ({ player, stats }) => {
             </div>
           </div>
         </div>
+
+        {!stats && <p className="mt-3 text-xs uppercase tracking-wider text-muted">No stats yet</p>}
 
         {stats && (
           <div className="mt-3 grid grid-cols-3 gap-2 text-center" data-testid="player-stats">
@@ -59,7 +66,7 @@ const PlayerComponent = ({ player, stats }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

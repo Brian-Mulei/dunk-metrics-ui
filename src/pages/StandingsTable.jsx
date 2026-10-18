@@ -69,7 +69,7 @@ const StandingsTable = () => {
             : allTeams.sort((a, b) => a.divisionRank - b.divisionRank);
 
         return sortedTeams.map((team, index) => (
-            <tr   onClick={() => handleClick(team.teamId)}  key={team.teamName} className='cursor-pointer border-t border-surface-a40 text-light-a0 hover:bg-surface-tonal-a10 hover:text-primary-a10'>
+            <tr   onClick={() => handleClick(team.teamId)}  key={team.teamName} className='cursor-pointer border-t border-surface-a40 text-light-a0 hover:bg-surfaceTonal-a10 hover:text-primary-a10'>
                  <td className="p-2   text-center">
                     {isConferenceMode ? team.conferenceRank : team.divisionRank}
                 </td>

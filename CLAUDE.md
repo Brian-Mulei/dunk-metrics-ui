@@ -13,7 +13,9 @@ Stack: React 18, react-router-dom 7, axios, Tailwind 3, Vite 6, lucide-react ico
 
 ## Structure
 
-- `src/App.jsx` — routes, each page lazy-loaded: `/` HomePage (games by date), `/team/:id` TeamPage, `/standings` StandingsTable, `/stats` StatsPage, `/news` NewsPage. All sit inside `components/Layout.jsx`.
+- `src/App.jsx` — routes, each page lazy-loaded: `/` HomePage (games by date), `/team/:id` TeamPage (tabs: Latest, Players, Team Stats, Schedule), `/standings` StandingsTable, `/stats` StatsPage, `/awards` AwardsPage, `/news` NewsPage. All sit inside `components/Layout.jsx`.
+- `components/PlayerModal.jsx` — player stats popup (this season vs last season, optional roster bio), opened from roster cards, Stats page rows, award candidates and team leaders. It takes the row already on screen as `preview` so it renders instantly, then loads `/stats/player`.
+- `components/TeamStatsPanel.jsx` — Team Stats tab: record, home/away, last 10, streak, points for/against with league rank, team leaders (`/teams/stats`).
 - `src/components/Layout.jsx` — navbar, team sidebar (static at `lg`+, slide-in drawer with backdrop below that), page area (the only scrolling region) and news sidebar (`xl`+ only). Nav links are defined once in `Navbar.jsx` (`NAV_LINKS`) and shared with the mobile menu.
 - `src/apis/apis.js` — **all HTTP goes through here.** `cachedGet` de-duplicates identical in-flight requests and caches results per URL+params for a TTL (games 30s, news 2m, standings 5m, stats 10m). Failed requests aren't cached. Base URL comes from `VITE_API_BASE_URL`, falling back to the production backend.
 - `src/assets/data/teams.jsx` — static team list (ids, names, codes, logo paths) used by the sidebar, filters and `utils/LogoPicker.js`. Logos are SVGs in `public/assets/logos`.
