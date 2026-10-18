@@ -113,7 +113,7 @@ const StandingsTable = () => {
           <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4">
                  {Object.entries(standings).map(([conference, divisions]) => (
                      <div key={conference} className="bg-surface-a0 border border-surface-a40 rounded-xl overflow-hidden">
-                         <h2 className="font-display uppercase tracking-wide text-2xl sm:text-3xl font-extrabold p-3 sm:p-4 text-primary-a0 bg-surface-a0">{conference} Conference</h2>
+                         <h2 className="font-display tracking-tight text-2xl sm:text-3xl font-bold p-3 sm:p-4 text-primary-a0 bg-surface-a0">{conference} Conference</h2>
                          {viewMode === 'division' ? 
                          (     <div key={conference} className="bg-surface-a0 shadow-lg rounded-lg">
                                       {Object.entries(divisions).map(([division, teams]) => (

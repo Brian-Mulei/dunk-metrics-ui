@@ -1,10 +1,11 @@
 import React from 'react';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 import { getTeamCode } from '../utils/LogoPicker';
+import WinOddsBar from './WinOddsBar';
 import { formatDate } from "../utils/DateFormater";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const MatchComponent = ({ game, isLong = true }) => {
+const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
   const {
     id,
     date,
@@ -65,9 +66,9 @@ const MatchComponent = ({ game, isLong = true }) => {
             loading="lazy"
             src={homeLogoUrl}
             alt={`${homeTeam} logo`}
-            className="w-8 h-8 sm:w-12 sm:h-12 shrink-0 mr-2 sm:mr-4"
+            className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 mr-2"
           />
-          <span className="font-display text-lg sm:text-xl font-bold tracking-wide text-light-a0 truncate">
+          <span className="shrink-0 font-display text-base sm:text-lg font-bold text-light-a0">
             {homeLogoCode}
           </span>
         </div>
@@ -76,12 +77,12 @@ const MatchComponent = ({ game, isLong = true }) => {
         <div className="flex shrink-0 items-center">
           {showScores ? (
             <>
-              <span className={`scoreboard text-3xl sm:text-4xl font-extrabold mx-2 sm:mx-4 ${homeStyle}`}>{homeTeamScore}</span>
+              <span className={`scoreboard text-2xl sm:text-3xl font-bold mx-1.5 sm:mx-3 ${homeStyle}`}>{homeTeamScore}</span>
               <span className="text-xl text-surface-a50 mx-1">–</span>
-              <span className={`scoreboard text-3xl sm:text-4xl font-extrabold mx-2 sm:mx-4 ${awayStyle}`}>{awayTeamScore}</span>
+              <span className={`scoreboard text-2xl sm:text-3xl font-bold mx-1.5 sm:mx-3 ${awayStyle}`}>{awayTeamScore}</span>
             </>
           ) : (
-            <span className="font-display text-xl sm:text-2xl font-bold text-muted mx-2 sm:mx-4">
+            <span className="font-display tracking-tight text-xl sm:text-2xl font-bold text-muted mx-2 sm:mx-4">
               {startingTime?.slice(0, 5)}
             </span>
           )}
@@ -90,14 +91,14 @@ const MatchComponent = ({ game, isLong = true }) => {
 
         {/* Away Team */}
         <div className="flex min-w-0 flex-1 items-center justify-end cursor-pointer" title={awayTeam} onClick={() => handleClick(awayTeamId)}>
-          <span className="font-display text-lg sm:text-xl font-bold tracking-wide mr-2 sm:mr-4 truncate">
+          <span className="shrink-0 font-display text-base sm:text-lg font-bold mr-2">
             {awayLogoCode}
           </span>
           <img
             loading="lazy"
             src={awayLogoUrl}
             alt={`${awayTeam} logo`}
-            className="w-8 h-8 sm:w-12 sm:h-12 shrink-0"
+            className="w-8 h-8 sm:w-10 sm:h-10 shrink-0"
           />
         </div>
       </div>
@@ -147,6 +148,20 @@ const MatchComponent = ({ game, isLong = true }) => {
       }
 
 
+      {prediction && (
+        <div className="space-y-2 border-t border-surface-a40 px-3 py-3">
+          <WinOddsBar prediction={prediction} />
+          {onPreview && (
+            <button
+              type="button"
+              onClick={() => onPreview(game, prediction)}
+              className="w-full rounded-md border border-surface-a40 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-a10 hover:border-primary-a0 hover:bg-surface-a10"
+            >
+              Matchup preview
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 

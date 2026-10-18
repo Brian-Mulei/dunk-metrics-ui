@@ -6,7 +6,11 @@ import AwardsPage from './AwardsPage';
 import { getAwards, getPlayerDetail } from '../apis/apis';
 import { player } from '../test/fixtures';
 
-vi.mock('../apis/apis', () => ({ getAwards: vi.fn(), getPlayerDetail: vi.fn() }));
+vi.mock('../apis/apis', () => ({
+  getAwards: vi.fn(),
+  getPlayerDetail: vi.fn(),
+  getSeasons: vi.fn(() => Promise.resolve({ data: { seasons: [] } })),
+}));
 
 const candidates = Array.from({ length: 7 }, (_, i) => ({
   rank: i + 1,

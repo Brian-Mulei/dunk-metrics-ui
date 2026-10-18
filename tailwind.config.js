@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily:{
-        sans:['Barlow','system-ui','sans-serif'],
-        display:['"Big Shoulders Display"','Barlow','sans-serif'],
+        sans:['Inter','system-ui','sans-serif'],
+        display:['Outfit','Inter','sans-serif'],
       },
       gridTemplateColumns:{
         '70/30':'70% 28%'
@@ -21,18 +21,18 @@ export default {
           a0: "#E9EDF5",
         },
         muted: "#8E9AB5",
-        // ball orange
+        // court green
         primary: {
-          a0: "#FF7A2F",
-          a10: "#FF8A47",
-          a20: "#FF9B61",
-          a30: "#FFAD7D",
-          a40: "#FFC09B",
-          a50: "#FFD3B9",
+          a0: "#2BD576",
+          a10: "#46DC88",
+          a20: "#62E29A",
+          a30: "#7FE8AD",
+          a40: "#9DEEC1",
+          a50: "#BBF4D5",
         },
         // scoreboard amber, for scores and stat numbers
         score: "#FFC247",
-        win: "#3DDC97",
+        win: "#5BE49B",
         loss: "#FF5D6C",
         // arena navy, a20 is the page background and a0/a10 are panels on top of it
         surface: {

@@ -57,22 +57,34 @@ export const getTeamDetails = async (teamId) => {
   return cachedGet('/teams/details', MINUTE, { params: { teamId } });
 }
 
-export const getStatsLeaderboard = async ({ sort = "points", teamId, minGames = 10, size = 50 } = {}) => {
-  return cachedGet('/stats', 10 * MINUTE, { params: { sort, teamId, minGames, size } });
+export const getStatsLeaderboard = async ({ sort = "points", teamId, minGames = 10, size = 50, season } = {}) => {
+  return cachedGet('/stats', 10 * MINUTE, { params: { sort, teamId, minGames, size, season } });
 }
 
-export const getTeamPlayerStats = async (teamId) => {
-  return cachedGet('/stats/team', 10 * MINUTE, { params: { teamId } });
+export const getTeamPlayerStats = async (teamId, season) => {
+  return cachedGet('/stats/team', 10 * MINUTE, { params: { teamId, season } });
+}
+
+export const getSeasons = async () => {
+  return cachedGet('/stats/seasons', 10 * MINUTE);
+}
+
+export const getPredictions = async (gameIds) => {
+  // repeated gameIds params bind to a List on the Spring side
+  return cachedGet('/game/predictions', 5 * MINUTE, {
+    params: { gameIds },
+    paramsSerializer: { indexes: null },
+  });
 }
 
 export const getPlayerDetail = async (espnPlayerId) => {
   return cachedGet('/stats/player', 10 * MINUTE, { params: { espnPlayerId } });
 }
 
-export const getTeamStats = async (teamId) => {
-  return cachedGet('/teams/stats', MINUTE, { params: { teamId } });
+export const getTeamStats = async (teamId, season) => {
+  return cachedGet('/teams/stats', MINUTE, { params: { teamId, season } });
 }
 
-export const getAwards = async () => {
-  return cachedGet('/awards', 10 * MINUTE);
+export const getAwards = async (season) => {
+  return cachedGet('/awards', 10 * MINUTE, { params: { season } });
 }

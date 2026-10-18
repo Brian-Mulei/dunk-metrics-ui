@@ -59,7 +59,7 @@ const NewsPage = () => {
     }
     return (
         <div>
-        <h1 className="mb-4 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">Latest <span className="text-primary-a0">News</span></h1>
+        <h1 className="mb-4 font-display tracking-tight text-3xl sm:text-4xl font-bold">Latest <span className="text-primary-a0">News</span></h1>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
             {news.map((news, index) => (
                 <div

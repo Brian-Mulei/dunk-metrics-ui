@@ -1,5 +1,5 @@
 import PlayerHeadshot from "./PlayerHeadshot";
-import { formatPct, formatStat } from "../utils/StatFormatter";
+import { formatStat } from "../utils/StatFormatter";
 
 const positionMap = {
   'F': "Forward",
@@ -32,24 +32,14 @@ const PlayerComponent = ({ player, stats, onSelect }) => {
           </div>
         </div>
 
-        {!stats && <p className="mt-3 text-xs uppercase tracking-wider text-muted">No stats yet</p>}
-
-        {stats && (
-          <div className="mt-3 grid grid-cols-3 gap-2 text-center" data-testid="player-stats">
-            <div className="rounded bg-surface-a0 py-1">
-              <div className="text-xs text-muted">PTS</div>
-              <div className="scoreboard text-lg font-bold">{formatStat(stats.points)}</div>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center" data-testid="player-stats">
+          {[["PTS", stats?.points], ["REB", stats?.rebounds], ["AST", stats?.assists]].map(([label, value]) => (
+            <div key={label} className="rounded bg-surface-a0 py-1">
+              <div className="text-xs text-muted">{label}</div>
+              <div className={`text-lg font-bold ${stats ? "scoreboard" : "text-muted"}`}>{formatStat(value)}</div>
             </div>
-            <div className="rounded bg-surface-a0 py-1">
-              <div className="text-xs text-muted">TS%</div>
-              <div className="scoreboard text-lg font-bold">{formatPct(stats.trueShootingPct)}</div>
-            </div>
-            <div className="rounded bg-surface-a0 py-1">
-              <div className="text-xs text-muted">AST/TO</div>
-              <div className="scoreboard text-lg font-bold">{formatStat(stats.assistToTurnover, 2)}</div>
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
 
         <div className="mt-3 text-sm text-light-a0 space-y-0.5">
           <p>
