@@ -1,35 +1,26 @@
-import React from 'react'
-import Navbar from './components/Navbar'
+import { lazy } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import TeamPage from './pages/TeamPage';
-import StandingsTable from './pages/StandingsTable';
-import { Hero } from './components/Hero'
-import { useState } from 'react';
 import Layout from './components/Layout';
-import { Import } from 'lucide-react';
-import NewsPage from './pages/NewsPage';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const TeamPage = lazy(() => import('./pages/TeamPage'));
+const StandingsTable = lazy(() => import('./pages/StandingsTable'));
+const NewsPage = lazy(() => import('./pages/NewsPage'));
+const StatsPage = lazy(() => import('./pages/StatsPage'));
+
 const App = () => {
-
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
   return (
     <Router>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-      <Route index element={<HomePage />} />
-      <Route path="team/:id" element={<TeamPage />} />
-      <Route path="standings" element={<StandingsTable />} />
-      <Route path="news" element={<NewsPage />} />
-      { /*
-        <Route path="teams/:id" element={<TeamDetails />} /> */}
-      </Route>
-    </Routes>
-  </Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="team/:id" element={<TeamPage />} />
+          <Route path="standings" element={<StandingsTable />} />
+          <Route path="news" element={<NewsPage />} />
+          <Route path="stats" element={<StatsPage />} />
+        </Route>
+      </Routes>
+    </Router>
   )
 }
 

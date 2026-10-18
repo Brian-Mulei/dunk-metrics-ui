@@ -33,7 +33,7 @@ const TeamsSidebar =  ({ }) => {
     };
  
     return (
-        <div className="h-[62rem] w-70 bg-[var(--clr-surface-a10)] p-4 text-white flex-1 overflow-y-auto no-scrollbar">
+        <div className="h-full bg-[var(--clr-surface-a10)] p-4 text-white overflow-y-auto no-scrollbar">
             {/* Pinned Teams Section */}
             {pinnedTeams.length > 0 && (
                 <div className="mb-4">
@@ -42,7 +42,7 @@ const TeamsSidebar =  ({ }) => {
                         {pinnedTeams.map((team) => (
                             <li key={team.id} className="flex items-center space-x-2 cursor-pointer sidebar-team-item">
                                 <Star className="w-4 h-4 text-primary-a0" onClick={() => togglePin(team)}></Star>
-                                <img src={team.logoUrl} alt={team.name} className="w-6 h-6" />
+                                <img src={team.logoUrl} alt={team.name} loading="lazy" className="w-6 h-6" />
                                 <span  onClick={() => handleClick(team.id)}>{team.name}</span>
                             </li>
                         ))}
@@ -69,7 +69,7 @@ const TeamsSidebar =  ({ }) => {
                                             onClick={() => togglePin(team)}
 
                                         />
-                                        <img src={team.logoUrl} alt={team.name} className="w-6 h-6" />
+                                        <img src={team.logoUrl} alt={team.name} loading="lazy" className="w-6 h-6" />
                                         <span  onClick={() => handleClick(team.id)}>{team.name}</span>
                                     </li>
                                 ))}
