@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import PlayerComponent from './PlayerComponent';
 
@@ -46,5 +46,18 @@ describe('PlayerComponent', () => {
     fireEvent.error(screen.getByRole('img', { name: 'Kevon Looney' }));
     expect(screen.queryByRole('img', { name: 'Kevon Looney' })).not.toBeInTheDocument();
     expect(screen.getByLabelText('Kevon Looney')).toHaveTextContent('KL');
+  });
+
+  it('opens stats when clicked if the player has stats', () => {
+    const onSelect = vi.fn();
+    render(<PlayerComponent player={player} stats={stats} onSelect={onSelect} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Kevon Looney: view stats' }));
+    expect(onSelect).toHaveBeenCalledWith(stats);
+  });
+
+  it('is not clickable without stats', () => {
+    render(<PlayerComponent player={player} onSelect={vi.fn()} />);
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(screen.getByText('No stats yet')).toBeInTheDocument();
   });
 });
