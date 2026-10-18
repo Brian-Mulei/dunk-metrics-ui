@@ -7,6 +7,7 @@ const TeamPage = lazy(() => import('./pages/TeamPage'));
 const StandingsTable = lazy(() => import('./pages/StandingsTable'));
 const NewsPage = lazy(() => import('./pages/NewsPage'));
 const StatsPage = lazy(() => import('./pages/StatsPage'));
+const AwardsPage = lazy(() => import('./pages/AwardsPage'));
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="standings" element={<StandingsTable />} />
           <Route path="news" element={<NewsPage />} />
           <Route path="stats" element={<StatsPage />} />
+          <Route path="awards" element={<AwardsPage />} />
         </Route>
       </Routes>
     </Router>

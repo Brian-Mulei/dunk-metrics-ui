@@ -58,11 +58,13 @@ const NewsPage = () => {
         );
     }
     return (
+        <div>
+        <h1 className="mb-4 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">Latest <span className="text-primary-a0">News</span></h1>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
             {news.map((news, index) => (
                 <div
                     key={index}
-                    className="trending-news-item cursor-pointer rounded-lg"
+                    className="trending-news-item cursor-pointer rounded-xl"
                 >
                     <a href={news.link} target="_blank" rel="noopener noreferrer">
 
@@ -71,11 +73,12 @@ const NewsPage = () => {
 
                         <h3 className="text-lg font-semibold">{news.headline}</h3>
                         <p className="text-sm">{news.description}</p>
-                        <p className="text-xs text-gray-400"> {formatDate(news.datePublished)}</p>
+                        <p className="text-xs text-muted"> {formatDate(news.datePublished)}</p>
                     </a>
-                    {/* <p className="text-xs text-gray-400">{news.datePublished}</p> */}
+                    {/* <p className="text-xs text-muted">{news.datePublished}</p> */}
                 </div>
             ))}
+        </div>
         </div>
     );
 }

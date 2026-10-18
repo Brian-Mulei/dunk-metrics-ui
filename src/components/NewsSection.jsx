@@ -60,12 +60,12 @@ const TrendingNews = () => {
     return (
         <div className="space-y-4">
       
-      <h2 className="text-lg font-bold">Trending</h2>
+      <h2 className="font-display text-xl font-bold uppercase tracking-wider text-primary-a0">Trending</h2>
 
           {news.map((news, index) => (
             <div
               key={index}
-              className="trending-news-item cursor-pointer"
+              className="trending-news-item cursor-pointer rounded-xl"
               
             >
                     <a href={news.link} target="_blank" rel="noopener noreferrer">
@@ -75,9 +75,9 @@ const TrendingNews = () => {
 
               <h3 className="text-lg font-semibold">{news.headline}</h3>
               <p className="text-sm">{news.description}</p>
-              <p className="text-xs text-gray-400"> {formatDate(news.datePublished)}</p>
+              <p className="text-xs text-muted"> {formatDate(news.datePublished)}</p>
 </a>
-              {/* <p className="text-xs text-gray-400">{news.datePublished}</p> */}
+              {/* <p className="text-xs text-muted">{news.datePublished}</p> */}
             </div>
           ))}
         </div>

@@ -64,3 +64,15 @@ export const getStatsLeaderboard = async ({ sort = "points", teamId, minGames = 
 export const getTeamPlayerStats = async (teamId) => {
   return cachedGet('/stats/team', 10 * MINUTE, { params: { teamId } });
 }
+
+export const getPlayerDetail = async (espnPlayerId) => {
+  return cachedGet('/stats/player', 10 * MINUTE, { params: { espnPlayerId } });
+}
+
+export const getTeamStats = async (teamId) => {
+  return cachedGet('/teams/stats', MINUTE, { params: { teamId } });
+}
+
+export const getAwards = async () => {
+  return cachedGet('/awards', 10 * MINUTE);
+}
