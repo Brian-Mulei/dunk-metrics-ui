@@ -4,6 +4,8 @@ import MatchComponent from '../components/MatchComponent';
 import PlayerComponent from '../components/PlayerComponent';
 import PlayerModal from '../components/PlayerModal';
 import TeamStatsPanel from '../components/TeamStatsPanel';
+import GamePreviewModal from '../components/GamePreviewModal';
+import { usePredictions } from '../utils/usePredictions';
 import { getTeamDetails, getTeamPlayerStats } from '../apis/apis';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 
@@ -22,6 +24,13 @@ function TeamPage() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("latest");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [preview, setPreview] = useState(null);
+  // the games list covers every season we have; the schedule tab shows what's still to be played
+  const upcomingGames = useMemo(
+    () => (teamData?.next5Games ?? []).filter((g) => g.status === "Scheduled").sort((a, b) => a.date.localeCompare(b.date)),
+    [teamData]
+  );
+  const predictions = usePredictions(upcomingGames);
 
   useEffect(() => {
     let cancelled = false;
@@ -80,7 +89,7 @@ function TeamPage() {
           className="w-20 h-20 sm:w-32 sm:h-32"
         />
         <div>
-          <h1 className="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-wide">{teamData.name}</h1>
+          <h1 className="font-display tracking-tight text-3xl sm:text-5xl font-bold">{teamData.name}</h1>
           <p className="text-muted">{teamData.city}</p>
           <div className="mt-2 grid grid-cols-1 gap-x-6 sm:grid-cols-2 text-light-a0">
             <p><span className="text-muted">Record</span> <span className="scoreboard text-xl font-bold">{teamData.wins}-{teamData.losses}</span></p>
@@ -109,7 +118,7 @@ function TeamPage() {
 
       {activeTab === "latest" && (
         <section>
-          <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-2">Latest Games</h3>
+          <h3 className="font-display tracking-tight text-2xl font-bold mb-2">Latest Games</h3>
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-4">
             {teamData.last5Games.map((game) => (
               <MatchComponent key={game.id} game={game} />
@@ -120,10 +129,17 @@ function TeamPage() {
 
       {activeTab === "schedule" && (
         <section>
-          <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-2">Team Schedule</h3>
+          <h3 className="font-display tracking-tight text-2xl font-bold mb-2">Upcoming games</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-            {teamData.next5Games.map((game) => (
-              <MatchComponent key={game.id} game={game} isLong={false} />
+            {upcomingGames.length === 0 && <p className="text-muted">No upcoming games scheduled yet.</p>}
+            {upcomingGames.map((game) => (
+              <MatchComponent
+                key={game.id}
+                game={game}
+                isLong={false}
+                prediction={predictions[game.id]}
+                onPreview={(g, prediction) => setPreview({ game: g, prediction })}
+              />
             ))}
           </div>
         </section>
@@ -135,7 +151,7 @@ function TeamPage() {
 
       {activeTab === "players" && (
         <section>
-          <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-4">Players</h3>
+          <h3 className="font-display tracking-tight text-2xl font-bold mb-4">Players</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
             {teamData.players.map((player) => (
               <PlayerComponent
@@ -147,6 +163,10 @@ function TeamPage() {
             ))}
           </div>
         </section>
+      )}
+
+      {preview && (
+        <GamePreviewModal game={preview.game} prediction={preview.prediction} onClose={() => setPreview(null)} />
       )}
 
       {selectedPlayer && (

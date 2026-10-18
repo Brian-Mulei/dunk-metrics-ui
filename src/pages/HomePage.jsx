@@ -3,6 +3,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { getGamesByDay } from '../apis/apis.js';
 import NoGamesCard from '../components/NoGamesCard.jsx';
+import GamePreviewModal from '../components/GamePreviewModal.jsx';
+import { usePredictions } from '../utils/usePredictions';
 const HomePage = () => {
 
     const formatDate = (date) => {
@@ -14,6 +16,8 @@ const HomePage = () => {
       };
 
       const [games, setGames] = useState(null);
+      const [preview, setPreview] = useState(null);
+      const predictions = usePredictions(games);
  
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   
@@ -87,7 +91,7 @@ const HomePage = () => {
     </button>
   </div>
 
-  <h1 className="mb-2 flex flex-wrap items-baseline gap-x-3 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">
+  <h1 className="mb-2 flex flex-wrap items-baseline gap-x-3 font-display tracking-tight text-3xl sm:text-4xl font-bold">
     Games
     <span className="text-primary-a0 text-xl sm:text-2xl">{selectedDate}</span>
   </h1>
@@ -97,11 +101,18 @@ const HomePage = () => {
       {games.length === 0 && <NoGamesCard />}
       {games.map((game) => (
         <div key={game.id} className="text-light-a0">
-          <MatchComponent game={game} />
+          <MatchComponent
+            game={game}
+            prediction={predictions[game.id]}
+            onPreview={(g, prediction) => setPreview({ game: g, prediction })}
+          />
         </div>
       ))}
     </div>
   </div>
+  {preview && (
+    <GamePreviewModal game={preview.game} prediction={preview.prediction} onClose={() => setPreview(null)} />
+  )}
 </div>
  
   );

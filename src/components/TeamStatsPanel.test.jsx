@@ -5,7 +5,10 @@ import TeamStatsPanel from './TeamStatsPanel';
 import { getTeamStats } from '../apis/apis';
 import { luka } from '../test/fixtures';
 
-vi.mock('../apis/apis', () => ({ getTeamStats: vi.fn() }));
+vi.mock('../apis/apis', () => ({
+  getTeamStats: vi.fn(),
+  getSeasons: vi.fn(() => Promise.resolve({ data: { seasons: [] } })),
+}));
 
 const stats = {
   teamId: 17, seasonLabel: '2025-26', gamesPlayed: 82, wins: 53, losses: 29,

@@ -7,6 +7,9 @@ import { getStatsLeaderboard } from '../apis/apis';
 
 vi.mock('../apis/apis', () => ({
   getStatsLeaderboard: vi.fn(),
+  getSeasons: vi.fn(() => Promise.resolve({ data: { current: 2027, seasons: [
+    { season: 2026, label: '2025-26' }, { season: 2025, label: '2024-25' },
+  ] } })),
 }));
 
 const response = {
@@ -37,7 +40,7 @@ describe('StatsPage', () => {
     expect(screen.getByTestId('stats-loading')).toBeInTheDocument();
     expect(await screen.findByText('2025-26 season · Source: ESPN, updated twice a day')).toBeInTheDocument();
     expect(screen.getAllByText('Luka Doncic').length).toBeGreaterThan(0);
-    expect(getStatsLeaderboard).toHaveBeenCalledWith({ sort: 'points', teamId: undefined, minGames: 10, size: 50 });
+    expect(getStatsLeaderboard).toHaveBeenCalledWith({ sort: 'points', teamId: undefined, minGames: 10, size: 50, season: undefined });
   });
 
   it('re-requests with the clicked column as sort', async () => {
@@ -55,6 +58,15 @@ describe('StatsPage', () => {
     await userEvent.selectOptions(screen.getByLabelText('Team'), '17');
     await waitFor(() =>
       expect(getStatsLeaderboard).toHaveBeenLastCalledWith(expect.objectContaining({ teamId: '17' }))
+    );
+  });
+
+  it('switches season', async () => {
+    renderPage();
+    await screen.findByRole('table');
+    await userEvent.selectOptions(await screen.findByLabelText('Season'), '2025');
+    await waitFor(() =>
+      expect(getStatsLeaderboard).toHaveBeenLastCalledWith(expect.objectContaining({ season: '2025' }))
     );
   });
 

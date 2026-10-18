@@ -20,8 +20,8 @@ const player = {
 const stats = {
   headshotUrl: 'https://a.espncdn.com/i/headshots/nba/players/full/1.png',
   points: 7.25,
-  trueShootingPct: 61.04,
-  assistToTurnover: 1.8,
+  rebounds: 4.1,
+  assists: 1.5,
 };
 
 describe('PlayerComponent', () => {
@@ -29,7 +29,7 @@ describe('PlayerComponent', () => {
     render(<PlayerComponent player={player} />);
     expect(screen.getByText('Kevon Looney')).toBeInTheDocument();
     expect(screen.getByText(/Forward/)).toBeInTheDocument();
-    expect(screen.queryByTestId('player-stats')).not.toBeInTheDocument();
+    expect(screen.getByTestId('player-stats')).toHaveTextContent('PTS–REB–AST–');
     expect(screen.getByLabelText('Kevon Looney')).toHaveTextContent('KL');
   });
 
@@ -37,8 +37,8 @@ describe('PlayerComponent', () => {
     render(<PlayerComponent player={player} stats={stats} />);
     expect(screen.getByRole('img', { name: 'Kevon Looney' })).toHaveAttribute('src', stats.headshotUrl);
     expect(screen.getByText('7.3')).toBeInTheDocument();
-    expect(screen.getByText('61.0%')).toBeInTheDocument();
-    expect(screen.getByText('1.80')).toBeInTheDocument();
+    expect(screen.getByText('4.1')).toBeInTheDocument();
+    expect(screen.getByText('1.5')).toBeInTheDocument();
   });
 
   it('falls back to initials when the headshot fails to load', () => {
@@ -58,6 +58,6 @@ describe('PlayerComponent', () => {
   it('is not clickable without stats', () => {
     render(<PlayerComponent player={player} onSelect={vi.fn()} />);
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
-    expect(screen.getByText('No stats yet')).toBeInTheDocument();
+    expect(screen.getAllByText('–')).toHaveLength(3);
   });
 });

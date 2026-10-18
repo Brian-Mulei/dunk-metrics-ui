@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getTeamStats } from "../apis/apis";
 import { formatPct, formatStat } from "../utils/StatFormatter";
 import PlayerHeadshot from "./PlayerHeadshot";
+import SeasonSelect from "./SeasonSelect";
 
 const ordinal = (n) => {
   const suffix = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" }[n % 10] ?? "th");
@@ -30,18 +31,21 @@ const ScoringRow = ({ label, value, rank, teams, signed = false }) => (
 const TeamStatsPanel = ({ teamId, onSelectPlayer }) => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
+  const [season, setSeason] = useState("");
 
   useEffect(() => {
     let cancelled = false;
     setStats(null);
     setError(null);
-    getTeamStats(teamId)
+    getTeamStats(teamId, season || undefined)
       .then((response) => !cancelled && setStats(response.data))
       .catch(() => !cancelled && setError("Couldn't load team stats."));
     return () => {
       cancelled = true;
     };
-  }, [teamId]);
+  }, [teamId, season]);
+
+  const picker = <SeasonSelect value={season} onChange={setSeason} className="w-40" />;
 
   if (error) return <p className="text-loss">{error}</p>;
 
@@ -57,15 +61,21 @@ const TeamStatsPanel = ({ teamId, onSelectPlayer }) => {
 
   if (stats.gamesPlayed === 0) {
     return (
-      <p className="rounded-xl border border-dashed border-surface-a40 p-6 text-center text-muted">
-        No regular-season games played yet{stats.seasonLabel ? ` in ${stats.seasonLabel}` : ""}. Team stats appear after the first game.
-      </p>
+      <div className="space-y-4">
+        {picker}
+        <p className="rounded-xl border border-dashed border-surface-a40 p-6 text-center text-muted">
+          No regular-season games played yet{stats.seasonLabel ? ` in ${stats.seasonLabel}` : ""}. Team stats appear after the first game.
+        </p>
+      </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      {stats.seasonLabel && <p className="text-sm text-muted">{stats.seasonLabel} regular season · {stats.gamesPlayed} games</p>}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        {stats.seasonLabel && <p className="text-sm text-muted">{stats.seasonLabel} regular season · {stats.gamesPlayed} games</p>}
+        {picker}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card title="Record">
           <div className="flex items-end justify-between">
