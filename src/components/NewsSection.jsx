@@ -10,7 +10,6 @@ const TrendingNews = () => {
       const fetchNews = async () => {
         const response = await getNews(5); // Replace with actual API endpoint
          setNews(response.data.articles);
-         console.log(news)
  
       };
           useEffect(() => {
@@ -59,7 +58,7 @@ const TrendingNews = () => {
           }
         
     return (
-        <div className="mb-18 h-[62rem] space-y-4 overflow-y-auto no-scrollbar">
+        <div className="space-y-4">
       
       <h2 className="text-lg font-bold">Trending</h2>
 
@@ -72,7 +71,7 @@ const TrendingNews = () => {
                     <a href={news.link} target="_blank" rel="noopener noreferrer">
 
               
-                          <img src={news.imageUrl} alt="news" />
+                          <img src={news.imageUrl} alt="" loading="lazy" className="mb-2 w-full rounded" />
 
               <h3 className="text-lg font-semibold">{news.headline}</h3>
               <p className="text-sm">{news.description}</p>
