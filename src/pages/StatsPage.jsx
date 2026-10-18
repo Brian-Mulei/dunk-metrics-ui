@@ -57,19 +57,19 @@ const StatsPage = () => {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-primary-a0">Player Stats</h1>
-          <p className="text-sm text-gray-400">
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">Player <span className="text-primary-a0">Stats</span></h1>
+          <p className="text-sm text-muted">
             {data?.seasonLabel ? `${data.seasonLabel} season · ` : ""}Source: ESPN, updated twice a day
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <label className="flex flex-col text-xs text-gray-400">
+          <label className="flex flex-col text-xs text-muted">
             Team
             <select
               aria-label="Team"
               value={teamId}
               onChange={(e) => setTeamId(e.target.value)}
-              className="mt-1 rounded bg-surface-a10 p-2 text-sm text-white"
+              className="mt-1 rounded-md border border-surface-a40 bg-surface-a0 p-2 text-sm text-light-a0"
             >
               <option value="">All teams</option>
               {allTeams.map((team) => (
@@ -77,26 +77,26 @@ const StatsPage = () => {
               ))}
             </select>
           </label>
-          <label className="flex flex-col text-xs text-gray-400">
+          <label className="flex flex-col text-xs text-muted">
             Min games
             <select
               aria-label="Minimum games"
               value={minGames}
               onChange={(e) => setMinGames(Number(e.target.value))}
-              className="mt-1 rounded bg-surface-a10 p-2 text-sm text-white"
+              className="mt-1 rounded-md border border-surface-a40 bg-surface-a0 p-2 text-sm text-light-a0"
             >
               {[0, 10, 25, 50].map((n) => (
                 <option key={n} value={n}>{n}+</option>
               ))}
             </select>
           </label>
-          <label className="flex flex-col text-xs text-gray-400 md:hidden">
+          <label className="flex flex-col text-xs text-muted md:hidden">
             Sort by
             <select
               aria-label="Sort by"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="mt-1 rounded bg-surface-a10 p-2 text-sm text-white"
+              className="mt-1 rounded-md border border-surface-a40 bg-surface-a0 p-2 text-sm text-light-a0"
             >
               {COLUMNS.map((c) => (
                 <option key={c.key} value={c.key}>{c.title}</option>
@@ -117,7 +117,7 @@ const StatsPage = () => {
       )}
 
       {data && players.length === 0 && (
-        <p className="rounded bg-surface-a10 p-4 text-gray-300">No player stats yet.</p>
+        <p className="rounded bg-surface-a10 p-4 text-muted">No player stats yet.</p>
       )}
 
       {players.length > 0 && (
@@ -127,18 +127,18 @@ const StatsPage = () => {
               <li
                 key={p.espnPlayerId}
                 onClick={() => p.teamId && navigate(`/team/${p.teamId}`)}
-                className="rounded-lg bg-surface-a10 p-3"
+                className="rounded-xl border border-surface-a40 bg-surface-a0 p-3"
               >
                 <div className="flex items-center gap-3">
-                  <span className="w-6 text-right text-sm text-gray-400">{index + 1}</span>
+                  <span className="w-6 text-right text-sm text-muted">{index + 1}</span>
                   <PlayerHeadshot name={p.name} url={p.headshotUrl} className="w-10 h-10" />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate font-semibold text-white">{p.name}</div>
-                    <div className="text-xs text-gray-400">{p.teamCode} · {p.position} · {p.gamesPlayed} GP</div>
+                    <div className="truncate font-semibold text-light-a0">{p.name}</div>
+                    <div className="text-xs text-muted">{p.teamCode} · {p.position} · {p.gamesPlayed} GP</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-primary-a0">{sortColumn.format(p[sort])}</div>
-                    <div className="text-xs text-gray-400">{sortColumn.label}</div>
+                    <div className="scoreboard text-2xl font-extrabold">{sortColumn.format(p[sort])}</div>
+                    <div className="text-xs text-muted">{sortColumn.label}</div>
                   </div>
                 </div>
                 <div className="mt-2 grid grid-cols-4 gap-1 text-center text-xs">
@@ -146,8 +146,8 @@ const StatsPage = () => {
                     const col = COLUMNS.find((c) => c.key === key);
                     return (
                       <div key={key} className="rounded bg-surface-a0 py-1">
-                        <div className="text-gray-400">{col.label}</div>
-                        <div className="text-white">{col.format(p[key])}</div>
+                        <div className="text-muted">{col.label}</div>
+                        <div className="text-light-a0 font-semibold">{col.format(p[key])}</div>
                       </div>
                     );
                   })}
@@ -156,10 +156,10 @@ const StatsPage = () => {
             ))}
           </ul>
 
-          <div className="hidden overflow-x-auto rounded-lg bg-surface-a0 md:block">
+          <div className="hidden overflow-x-auto rounded-xl border border-surface-a40 bg-surface-a0 md:block">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-primary-a0">
+                <tr className="text-muted text-xs uppercase tracking-wider">
                   <th className="sticky left-0 bg-surface-a0 p-2 text-left">#</th>
                   <th className="sticky left-8 bg-surface-a0 p-2 text-left">Player</th>
                   {COLUMNS.map((col) => (
@@ -168,7 +168,7 @@ const StatsPage = () => {
                         type="button"
                         title={col.title}
                         onClick={() => setSort(col.key)}
-                        className={sort === col.key ? "text-white underline" : "hover:text-white"}
+                        className={sort === col.key ? "text-primary-a0" : "hover:text-light-a0"}
                       >
                         {col.label}
                       </button>
@@ -181,10 +181,10 @@ const StatsPage = () => {
                   <tr
                     key={p.espnPlayerId}
                     onClick={() => p.teamId && navigate(`/team/${p.teamId}`)}
-                    className="cursor-pointer border-t border-surface-a20 text-white hover:bg-surface-a10"
+                    className="group cursor-pointer border-t border-surface-a40 text-light-a0 hover:bg-surface-a10"
                   >
-                    <td className="sticky left-0 bg-surface-a0 p-2 text-gray-400">{index + 1}</td>
-                    <td className="sticky left-8 bg-surface-a0 p-2">
+                    <td className="sticky left-0 bg-surface-a0 group-hover:bg-surface-a10 p-2 text-muted tabular-nums">{index + 1}</td>
+                    <td className="sticky left-8 bg-surface-a0 group-hover:bg-surface-a10 p-2">
                       <div className="flex items-center gap-2 whitespace-nowrap">
                         <PlayerHeadshot name={p.name} url={p.headshotUrl} className="w-8 h-8" />
                         <span className="font-semibold">{p.name}</span>
@@ -196,7 +196,7 @@ const StatsPage = () => {
                     {COLUMNS.map((col) => (
                       <td
                         key={col.key}
-                        className={`p-2 text-right tabular-nums ${sort === col.key ? "font-bold text-primary-a0" : ""}`}
+                        className={`p-2 text-right tabular-nums ${sort === col.key ? "scoreboard text-base font-bold" : ""}`}
                       >
                         {col.format(p[col.key])}
                       </td>

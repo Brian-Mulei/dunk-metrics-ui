@@ -33,11 +33,11 @@ const TeamsSidebar =  ({ }) => {
     };
  
     return (
-        <div className="h-full bg-[var(--clr-surface-a10)] p-4 text-white overflow-y-auto no-scrollbar">
+        <div className="h-full bg-surface-a30 p-3 text-light-a0 overflow-y-auto no-scrollbar">
             {/* Pinned Teams Section */}
             {pinnedTeams.length > 0 && (
                 <div className="mb-4">
-                    <h2 className="text-lg font-bold">Pinned Teams</h2>
+                    <h2 className="font-display text-lg font-bold uppercase tracking-wider text-primary-a0 mt-2">Pinned Teams</h2>
                     <ul className="space-y-1 mt-1">
                         {pinnedTeams.map((team) => (
                             <li key={team.id} className="flex items-center space-x-2 cursor-pointer sidebar-team-item">
@@ -53,10 +53,10 @@ const TeamsSidebar =  ({ }) => {
             {/* Regular Teams Section */}
             {Object.entries(teamsData).map(([conference, divisions]) => (
                 <div key={conference} className="mb-4">
-                    <h2 className="text-lg font-bold">{conference}</h2>
+                    <h2 className="font-display text-lg font-bold uppercase tracking-wider text-primary-a0 mt-2">{conference}</h2>
                     {Object.entries(divisions).map(([division, teams]) => (
                         <div key={division} className="mt-2">
-                            <h3 className="text-md font-semibold">{division}</h3>
+                            <h3 className="text-xs font-semibold uppercase tracking-widest text-muted px-3">{division}</h3>
                             <ul className="space-y-1 mt-1">
                                 {teams.map((team) => (
                                     <li
@@ -65,7 +65,7 @@ const TeamsSidebar =  ({ }) => {
 
                                     >
                                         <Star
-                                            className={`w-4 h-4 ${pinnedTeams.some((p) => p.id === team.id) ? "text-primary-a0" : "text-gray-500"}`}
+                                            className={`w-4 h-4 ${pinnedTeams.some((p) => p.id === team.id) ? "text-primary-a0" : "text-surface-a50 hover:text-primary-a0"}`}
                                             onClick={() => togglePin(team)}
 
                                         />

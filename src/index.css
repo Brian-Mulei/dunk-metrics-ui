@@ -106,32 +106,35 @@
 
 
 :root {
-  --clr-dark-a0: #000000;
-  --clr-light-a0: #ffffff;
+  --clr-dark-a0: #070A12;
+  --clr-light-a0: #E9EDF5;
 
-  /* Dark theme primary colors */
-  --clr-primary-a0: #bff538;
-  --clr-primary-a10: #c8f656;
-  --clr-primary-a20: #d0f76f;
-  --clr-primary-a30: #d8f985;
-  --clr-primary-a40: #e0fa9a;
-  --clr-primary-a50: #e7fbaf;
+  --clr-primary-a0: #FF7A2F;
+  --clr-primary-a10: #FF8A47;
+  --clr-primary-a20: #FF9B61;
+  --clr-primary-a30: #FFAD7D;
+  --clr-primary-a40: #FFC09B;
+  --clr-primary-a50: #FFD3B9;
 
-  /* Dark theme surface colors */
-  --clr-surface-a0: #121212;
-  --clr-surface-a10: #282828;
-  --clr-surface-a20: #3f3f3f;
-  --clr-surface-a30: #575757;
-  --clr-surface-a40: #717171;
-  --clr-surface-a50: #8b8b8b;
+  --clr-surface-a0: #131A2B;
+  --clr-surface-a10: #18213A;
+  --clr-surface-a20: #0B101C;
+  --clr-surface-a30: #0F1626;
+  --clr-surface-a40: #2A3552;
+  --clr-surface-a50: #3A4769;
 
-  /* Dark theme tonal surface colors */
-  --clr-surface-tonal-a0: #222519;
-  --clr-surface-tonal-a10: #37392e;
-  --clr-surface-tonal-a20: #4d4f45;
-  --clr-surface-tonal-a30: #64665c;
-  --clr-surface-tonal-a40: #7c7e75;
-  --clr-surface-tonal-a50: #94968f;
+  --clr-surface-tonal-a0: #1A2236;
+  --clr-surface-tonal-a10: #222C45;
+  --clr-surface-tonal-a20: #2A3552;
+  --clr-surface-tonal-a30: #34405F;
+  --clr-surface-tonal-a40: #46537A;
+  --clr-surface-tonal-a50: #5A6890;
+
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--clr-surface-a20);
 }
 
 .bg-primary {
@@ -139,51 +142,70 @@
   background-color: var(--clr-surface-a0);
 }
 
-
 .trending-news-item {
-  padding: 10px 20px;
-  background-color: #333; /* Dark background for the news card */
-  color: white; /* White text */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  padding: 12px 16px;
+  background-color: var(--clr-surface-a0);
+  border: 1px solid var(--clr-surface-a40);
+  color: var(--clr-light-a0);
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .trending-news-item:hover {
-  background-color: #c8f656; /* Primary color on hover */
-  color: black; /* Change text color to black on hover */
+  border-color: var(--clr-primary-a0);
 }
 
+.trending-news-item:hover h3 {
+  color: var(--clr-primary-a10);
+}
 
 .sidebar-team-item {
-  padding: 10px 20px;
-  background-color: #333; /* Default dark background */
-  color: white; /* White text */
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--clr-light-a0);
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .sidebar-team-item:hover {
-  background-color: #c8f656; /* Primary color on hover */
-  color: black; /* Change text color to black on hover */
+  background-color: var(--clr-surface-tonal-a10);
+  color: var(--clr-primary-a10);
 }
- 
 
 .sidebar-team-item img {
-  width: 30px; /* Set size for the team logo */
-  height: 30px;
-  object-fit: cover;
-  border-radius: 5px; /* Optional: Add rounded corners for logos */
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
+
+/* scoreboard digits */
+.scoreboard {
+  font-family: "Big Shoulders Display", Barlow, sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: #FFC247;
+  text-shadow: 0 0 12px rgba(255, 194, 71, 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--clr-primary-a0);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
       display: none;
   }
- /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
 }

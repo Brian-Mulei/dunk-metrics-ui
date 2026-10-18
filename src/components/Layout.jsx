@@ -36,9 +36,9 @@ const Layout = () => {
       />
 
       {showMenu && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-surface-a30 p-4 flex flex-col space-y-1 shadow-lg z-50">
+        <div className="md:hidden absolute top-16 left-0 w-full bg-surface-a30 border-b border-surface-a40 p-3 flex flex-col gap-1 shadow-lg z-50">
           {NAV_LINKS.map((link) => (
-            <Link key={link.to} to={link.to} className="rounded px-2 py-2 hover:text-primary-a10">
+            <Link key={link.to} to={link.to} className="rounded-md px-3 py-2 font-semibold uppercase tracking-wide hover:bg-surface-a10 hover:text-primary-a10">
               {link.label}
             </Link>
           ))}
@@ -55,18 +55,18 @@ const Layout = () => {
         )}
 
         <aside
-          className={`fixed top-16 bottom-0 left-0 z-40 w-72 max-w-[85vw] bg-surface-a10 transform transition-transform duration-300 lg:static lg:z-auto lg:w-64 lg:translate-x-0 ${showTeamSidebar ? "translate-x-0" : "-translate-x-full"}`}
+          className={`fixed top-16 bottom-0 left-0 z-40 w-72 max-w-[85vw] bg-surface-a10 transform transition-transform duration-300 lg:static lg:z-auto lg:w-64 lg:translate-x-0 border-r border-surface-a40 ${showTeamSidebar ? "translate-x-0" : "-translate-x-full"}`}
         >
           <TeamSidebar />
         </aside>
 
-        <main className="flex-1 min-w-0 overflow-y-auto bg-surface-a20 p-3 sm:p-4">
+        <main className="flex-1 min-w-0 overflow-y-auto bg-surface-a20 p-3 sm:p-5">
           <Suspense fallback={<PageFallback />}>
             <Outlet />
           </Suspense>
         </main>
 
-        <aside className="hidden xl:block w-80 shrink-0 overflow-y-auto no-scrollbar bg-surface-a10 p-4">
+        <aside className="hidden xl:block w-80 shrink-0 overflow-y-auto no-scrollbar bg-surface-a30 border-l border-surface-a40 p-4">
           <News />
         </aside>
       </div>

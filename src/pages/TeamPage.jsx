@@ -68,7 +68,7 @@ function TeamPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 bg-surface-a0 rounded-lg shadow-lg">
+    <div className="p-4 sm:p-6 bg-surface-a0 border border-surface-a40 rounded-xl">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6 text-center sm:text-left">
         <img
           src={getTeamLogoUrl(teamData.teamId)}
@@ -76,25 +76,25 @@ function TeamPage() {
           className="w-20 h-20 sm:w-32 sm:h-32"
         />
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-primary-a0">{teamData.name}</h1>
-          <p className="text-light-a0">{teamData.city}</p>
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold uppercase tracking-wide">{teamData.name}</h1>
+          <p className="text-muted">{teamData.city}</p>
           <div className="mt-2 grid grid-cols-1 gap-x-6 sm:grid-cols-2 text-light-a0">
-            <p><strong>Record:</strong> {teamData.wins} - {teamData.losses}</p>
-            <p><strong>Conference:</strong> {teamData.conference} ({teamData.conferenceRank})</p>
-            <p><strong>Division:</strong> {teamData.division} ({teamData.divisionRank})</p>
+            <p><span className="text-muted">Record</span> <span className="scoreboard text-xl font-bold">{teamData.wins}-{teamData.losses}</span></p>
+            <p><span className="text-muted">Conference</span> {teamData.conference} · #{teamData.conferenceRank}</p>
+            <p><span className="text-muted">Division</span> {teamData.division} · #{teamData.divisionRank}</p>
           </div>
         </div>
       </div>
 
       <div className="mb-4 overflow-x-auto no-scrollbar">
-        <div className="flex border-b border-surfaceTonal-a20">
+        <div className="flex border-b border-surface-a40">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`py-2 px-4 whitespace-nowrap ${activeTab === tab.key
+              className={`py-2 px-4 whitespace-nowrap font-semibold uppercase tracking-wide text-sm ${activeTab === tab.key
                 ? "border-b-2 border-primary-a0 text-primary-a0"
-                : "text-light-a0"
+                : "text-muted hover:text-light-a0"
                 }`}
             >
               {tab.label}
@@ -105,7 +105,7 @@ function TeamPage() {
 
       {activeTab === "latest" && (
         <section>
-          <h3 className="text-xl font-bold text-primary-a0 mb-2">Latest Games</h3>
+          <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-2">Latest Games</h3>
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-4">
             {teamData.last5Games.map((game) => (
               <MatchComponent key={game.id} game={game} />
@@ -116,7 +116,7 @@ function TeamPage() {
 
       {activeTab === "schedule" && (
         <section>
-          <h3 className="text-xl font-bold text-primary-a0 mb-2">Team Schedule</h3>
+          <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-2">Team Schedule</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
             {teamData.next5Games.map((game) => (
               <MatchComponent key={game.id} game={game} isLong={false} />
@@ -127,7 +127,7 @@ function TeamPage() {
 
       {activeTab === "players" && (
         <section>
-          <h3 className="text-xl font-bold text-primary-a0 mb-4">Players</h3>
+          <h3 className="font-display text-2xl font-bold uppercase tracking-wide mb-4">Players</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-4">
             {teamData.players.map((player) => (
               <PlayerComponent key={player.id} player={player} stats={statsByPlayerId.get(player.id)} />

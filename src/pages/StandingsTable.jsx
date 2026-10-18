@@ -69,7 +69,7 @@ const StandingsTable = () => {
             : allTeams.sort((a, b) => a.divisionRank - b.divisionRank);
 
         return sortedTeams.map((team, index) => (
-            <tr   onClick={() => handleClick(team.teamId)}  key={team.teamName} className='cursor-pointer bg-surface-a0 text-white hover:text-surface-a0 hover:bg-primary-a0'>
+            <tr   onClick={() => handleClick(team.teamId)}  key={team.teamName} className='cursor-pointer border-t border-surface-a40 text-light-a0 hover:bg-surface-tonal-a10 hover:text-primary-a10'>
                  <td className="p-2   text-center">
                     {isConferenceMode ? team.conferenceRank : team.divisionRank}
                 </td>
@@ -78,7 +78,7 @@ const StandingsTable = () => {
                        
                       </td>
                 <td className="p-2  ">{team.teamName}</td>
-                <td className="p-2 text-center whitespace-nowrap">{team.wins}-{team.losses}</td>               
+                <td className="p-2 text-center whitespace-nowrap font-display text-lg font-bold tabular-nums">{team.wins}-{team.losses}</td>               
             </tr>
         ));
     };
@@ -93,7 +93,7 @@ const StandingsTable = () => {
                      onClick={() => setViewMode('conference')} 
                      className={`px-3 sm:px-4 py-2 mr-2 rounded text-sm sm:text-base ${viewMode === 'conference' 
                          ? 'bg-primary-a0 text-dark-a0' 
-                       : 'bg-gray-200 text-gray-800'}`}
+                       : 'bg-surface-a0 border border-surface-a40 text-light-a0'}`}
                  >
                      Conference Rank
                  </button>
@@ -101,7 +101,7 @@ const StandingsTable = () => {
                       onClick={() => setViewMode('division')} 
                      className={`px-3 sm:px-4 py-2 rounded text-sm sm:text-base ${viewMode === 'division' 
                         ?  'bg-primary-a0 text-dark-a0' 
-                         : 'bg-gray-200 text-gray-800'}`}
+                         : 'bg-surface-a0 border border-surface-a40 text-light-a0'}`}
                 >
                     Division Rank
                 </button>
@@ -109,24 +109,24 @@ const StandingsTable = () => {
              </div>
            
           {/* Table */}
-          <div className="rounded-lg text-gray-900">
+          <div className="rounded-lg">
           <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4">
                  {Object.entries(standings).map(([conference, divisions]) => (
-                     <div key={conference} className="bg-surface-a0 shadow-lg rounded-lg overflow-hidden">
-                         <h2 className="text-xl sm:text-2xl font-bold p-3 sm:p-4 text-primary-a0 bg-surface-a0">{conference} Conference</h2>
+                     <div key={conference} className="bg-surface-a0 border border-surface-a40 rounded-xl overflow-hidden">
+                         <h2 className="font-display uppercase tracking-wide text-2xl sm:text-3xl font-extrabold p-3 sm:p-4 text-primary-a0 bg-surface-a0">{conference} Conference</h2>
                          {viewMode === 'division' ? 
                          (     <div key={conference} className="bg-surface-a0 shadow-lg rounded-lg">
                                       {Object.entries(divisions).map(([division, teams]) => (
                                          <div key={division} className="mb-4">
-                                             <h3 className="text-xl font-semibold p-2  bg-primary-a0 text-dark-a0">{division} Division</h3>
+                                             <h3 className="text-xs font-semibold uppercase tracking-widest px-4 py-2 bg-surface-a10 text-primary-a10">{division} Division</h3>
                                              <table className="w-full table-auto">
                                                  <thead>
                                                      <tr className="bg-surface-a0">
-                                                     <th className="p-2 text-primary-a0">Rank</th>
+                                                     <th className="p-2 text-muted text-xs uppercase tracking-widest">Rank</th>
                                                      <th className="p-2 text-primary-a0 "> </th>
 
-                                                         <th className="p-2  text-primary-a0 justify-start">Team</th>
-                                                         <th className="p-2  text-primary-a0">Record</th>
+                                                         <th className="p-2  text-muted text-xs uppercase tracking-widest text-left">Team</th>
+                                                         <th className="p-2  text-muted text-xs uppercase tracking-widest">Record</th>
                                                      </tr>
                                                  </thead>
                                                  <tbody>
@@ -142,11 +142,11 @@ const StandingsTable = () => {
                             <table className="w-full table-auto">
                                  <thead>
                                      <tr className="bg-surface-a0">
-                                     <th className="p-2 text-primary-a0">Rank</th>
+                                     <th className="p-2 text-muted text-xs uppercase tracking-widest">Rank</th>
                                      <th className="p-2 text-primary-a0"> </th>
 
-                                         <th className="p-2  text-primary-a0 justify-start">Team</th>
-                                         <th className="p-2 text-primary-a0 ">Record</th>
+                                         <th className="p-2  text-muted text-xs uppercase tracking-widest text-left">Team</th>
+                                         <th className="p-2 text-muted text-xs uppercase tracking-widest">Record</th>
                                      </tr>
                                  </thead>
                                  <tbody>

@@ -75,22 +75,22 @@ const HomePage = () => {
   <div className="w-full flex flex-wrap justify-end gap-2 mb-4">
     <input
       type="date"
-      className="border p-2 rounded-lg shadow-md bg-surface-a10 text-primary-a20"
+      className="rounded-md border border-surface-a40 bg-surface-a0 px-3 py-2 text-light-a0"
       value={selectedDate}
       onChange={(e) => setSelectedDate(e.target.value)}
     />
     <button
-      className="bg-surface-a10 text-primary-a20 px-4 py-2 rounded-lg shadow-md"
+      className="rounded-md bg-primary-a0 px-4 py-2 font-semibold uppercase tracking-wide text-dark-a0 hover:bg-primary-a10"
       onClick={() => setSelectedDate(new Date().toISOString().split("T")[0])}
     >
       Today
     </button>
   </div>
 
-  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 flex flex-wrap items-center">
-    Showing games for 
-    <div className="text-primary-a10 ml-2">{selectedDate}</div>
-  </h3>
+  <h1 className="mb-2 flex flex-wrap items-baseline gap-x-3 font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-wide">
+    Games
+    <span className="text-primary-a0 text-xl sm:text-2xl">{selectedDate}</span>
+  </h1>
 
   <div className="w-full pb-4">
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-3 pb-4">
