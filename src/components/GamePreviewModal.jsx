@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { getTeamCode, getTeamLogoUrl } from "../utils/LogoPicker";
 import { formatStat } from "../utils/StatFormatter";
 import WinOddsBar from "./WinOddsBar";
+import { formatGameDate, formatGameTime } from "../utils/GameTime";
 
 const ordinal = (n) => {
   if (!n) return "";
@@ -59,7 +60,7 @@ const GamePreviewModal = ({ game, prediction, onClose }) => {
               {homeCode} vs {awayCode}
             </h2>
             <p className="text-sm text-muted">
-              {game.date} · {game.startingTime?.slice(0, 5)} · {game.venue}
+              {formatGameDate(game)} · {formatGameTime(game)} · {game.venue}
             </p>
           </div>
           <button ref={closeRef} onClick={onClose} aria-label="Close" className="rounded-md p-2 text-muted hover:bg-surface-a10 hover:text-light-a0">

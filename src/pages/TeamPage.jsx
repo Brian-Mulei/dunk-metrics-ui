@@ -6,6 +6,7 @@ import PlayerModal from '../components/PlayerModal';
 import TeamStatsPanel from '../components/TeamStatsPanel';
 import GamePreviewModal from '../components/GamePreviewModal';
 import { usePredictions } from '../utils/usePredictions';
+import { byStartTime } from '../utils/GameTime';
 import { getTeamDetails, getTeamPlayerStats } from '../apis/apis';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 
@@ -27,7 +28,7 @@ function TeamPage() {
   const [preview, setPreview] = useState(null);
   // the games list covers every season we have; the schedule tab shows what's still to be played
   const upcomingGames = useMemo(
-    () => (teamData?.next5Games ?? []).filter((g) => g.status === "Scheduled").sort((a, b) => a.date.localeCompare(b.date)),
+    () => (teamData?.next5Games ?? []).filter((g) => g.status === "Scheduled").sort(byStartTime),
     [teamData]
   );
   const predictions = usePredictions(upcomingGames);
