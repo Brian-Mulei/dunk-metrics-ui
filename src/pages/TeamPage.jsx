@@ -17,6 +17,9 @@ const TABS = [
   { key: "schedule", label: "Schedule" },
 ];
 
+// older backends send 0 for teams that aren't ranked yet, newer ones null
+const formatRank = (rank) => (rank ? `#${rank}` : "–");
+
 // leftover "Scheduled" games from last season (unplayed playoff games) are in the data, so upcoming means not yet started
 const STALE_AFTER_MS = 6 * 60 * 60 * 1000;
 
@@ -46,7 +49,7 @@ function TeamPage() {
 
     getTeamDetails(id)
       .then((response) => !cancelled && setTeamData(response.data))
-      .catch(() => !cancelled && setError("Couldn't load this team."));
+      .catch((err) => !cancelled && setError(err?.response?.status === 404 ? "Team not found." : "Couldn't load this team."));
 
     // Stats are optional: the team page still works if the stats endpoint isn't deployed yet.
     getTeamPlayerStats(id)
@@ -99,8 +102,8 @@ function TeamPage() {
           <p className="text-muted">{teamData.city}</p>
           <div className="mt-2 grid grid-cols-1 gap-x-6 sm:grid-cols-2 text-light-a0">
             <p><span className="text-muted">Record</span> <span className="scoreboard text-xl font-bold">{teamData.wins}-{teamData.losses}</span></p>
-            <p><span className="text-muted">Conference</span> {teamData.conference} · #{teamData.conferenceRank}</p>
-            <p><span className="text-muted">Division</span> {teamData.division} · #{teamData.divisionRank}</p>
+            <p><span className="text-muted">Conference</span> {teamData.conference} · {formatRank(teamData.conferenceRank)}</p>
+            <p><span className="text-muted">Division</span> {teamData.division} · {formatRank(teamData.divisionRank)}</p>
           </div>
         </div>
       </div>
