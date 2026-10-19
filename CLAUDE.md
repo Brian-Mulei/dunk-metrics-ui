@@ -25,6 +25,8 @@ Stack: React 18, react-router-dom 7, axios, Tailwind 3, Vite 6, lucide-react ico
 
 ## Conventions
 
+- **Times:** the API sends game starts in UTC (`startTimeUtc`; older responses only have zone-less UTC `date` + `startingTime`). Always format through `utils/GameTime` so dates and times show in the viewer's timezone, use `localDateKey()` for "today" (never `toISOString()`, which gives the UTC day), and pass `userTimeZone()` to `getGamesByDay`. News `datePublished` is UTC without an offset; `formatDate` handles it.
+
 - Data fetching is plain `useEffect` + `useState` calling an `apis.js` function; guard against setting state after unmount/param change with a `cancelled` flag (see `TeamPage`, `StatsPage`). No global store.
 - Loading states are pulse skeletons using `bg-surfaceTonal-a10 animate-pulse`.
 - Visual direction is "arena at night". Colors are custom Tailwind tokens from `tailwind.config.js` (mirrored as CSS vars in `src/index.css`): `surface-a20` page background, `surface-a30` navbar/sidebars, `surface-a0`/`a10` panels, `surface-a40` borders, `primary-a*` court green (actions, active nav, accents), `score` amber, `win`/`loss`, `muted` secondary text, `light-a0` body text. Don't use Tailwind's stock grays or introduce other palettes.

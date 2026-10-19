@@ -2,23 +2,23 @@ import React from 'react';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 import { getTeamCode } from '../utils/LogoPicker';
 import WinOddsBar from './WinOddsBar';
+import { formatGameDate, formatGameTime } from '../utils/GameTime';
 import { formatDate } from "../utils/DateFormater";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
   const {
     id,
-    date,
     homeTeamId,
     awayTeamId,
     homeTeam,
     awayTeam,
     venue,
-    startingTime,
     status,
     homeTeamScore,
     awayTeamScore,
-    lineScores,
+    homeTeamRecord,
+    awayTeamRecord,
   } = game;
 
 
@@ -52,8 +52,7 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
       {/* Game Header */}
       <div className="px-3 py-2 sm:px-4 border-b border-surface-a40 text-center text-muted text-xs sm:text-sm">
  
-        {isLong && <span>{`${date} · ${startingTime?.slice(0, 5)}`}</span>}
-         {!isLong && <span>{(`${date}`)} </span>  }
+        <span>{isLong ? `${formatGameDate(game)} · ${formatGameTime(game)}` : formatGameDate(game)}</span>
         <span className="mx-1 sm:mx-2">•</span>
         <span>{venue}</span>
       </div>
@@ -68,8 +67,9 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
             alt={`${homeTeam} logo`}
             className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 mr-2"
           />
-          <span className="shrink-0 font-display text-base sm:text-lg font-bold text-light-a0">
-            {homeLogoCode}
+          <span className="shrink-0 leading-tight">
+            <span className="block font-display text-base sm:text-lg font-bold text-light-a0">{homeLogoCode}</span>
+            {homeTeamRecord && <span className="block text-xs text-muted tabular-nums" aria-label={`${homeLogoCode} record`}>{homeTeamRecord}</span>}
           </span>
         </div>
 
@@ -82,8 +82,8 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
               <span className={`scoreboard text-2xl sm:text-3xl font-bold mx-1.5 sm:mx-3 ${awayStyle}`}>{awayTeamScore}</span>
             </>
           ) : (
-            <span className="font-display tracking-tight text-xl sm:text-2xl font-bold text-muted mx-2 sm:mx-4">
-              {startingTime?.slice(0, 5)}
+            <span className="font-display tracking-tight text-xl sm:text-2xl font-bold text-muted mx-2 sm:mx-4 whitespace-nowrap">
+              {formatGameTime(game)}
             </span>
           )}
 
@@ -91,8 +91,9 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
 
         {/* Away Team */}
         <div className="flex min-w-0 flex-1 items-center justify-end cursor-pointer" title={awayTeam} onClick={() => handleClick(awayTeamId)}>
-          <span className="shrink-0 font-display text-base sm:text-lg font-bold mr-2">
-            {awayLogoCode}
+          <span className="shrink-0 leading-tight text-right mr-2">
+            <span className="block font-display text-base sm:text-lg font-bold">{awayLogoCode}</span>
+            {awayTeamRecord && <span className="block text-xs text-muted tabular-nums" aria-label={`${awayLogoCode} record`}>{awayTeamRecord}</span>}
           </span>
           <img
             loading="lazy"

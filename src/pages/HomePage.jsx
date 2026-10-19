@@ -5,13 +5,12 @@ import { getGamesByDay } from '../apis/apis.js';
 import NoGamesCard from '../components/NoGamesCard.jsx';
 import GamePreviewModal from '../components/GamePreviewModal.jsx';
 import { usePredictions } from '../utils/usePredictions';
+import { formatDayHeading, localDateKey, userTimeZone } from '../utils/GameTime';
 const HomePage = () => {
 
-    const formatDate = (date) => {
-        const d = new Date(date);
-        const day = String(d.getDate()).padStart(2, '0');
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const year = d.getFullYear();
+    // the API wants dd-MM-yyyy; split the string so no Date parsing can shift the day
+    const formatDate = (dateKey) => {
+        const [year, month, day] = dateKey.split("-");
         return `${day}-${month}-${year}`;
       };
 
@@ -19,15 +18,15 @@ const HomePage = () => {
       const [preview, setPreview] = useState(null);
       const predictions = usePredictions(games);
  
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+  const [selectedDate, setSelectedDate] = useState(localDateKey());
   
   useEffect(() => {
-    fetchGames(formatDate(selectedDate.toString().split("T")[0]));
+    fetchGames(formatDate(selectedDate));
   }, [selectedDate]);
 
   const fetchGames = async (date) => {
     try {
-      const response =  await getGamesByDay(date)
+      const response =  await getGamesByDay(date, userTimeZone())
       setGames(response.data)
       } catch (error) {
      }
@@ -85,7 +84,7 @@ const HomePage = () => {
     />
     <button
       className="rounded-md bg-primary-a0 px-4 py-2 font-semibold uppercase tracking-wide text-dark-a0 hover:bg-primary-a10"
-      onClick={() => setSelectedDate(new Date().toISOString().split("T")[0])}
+      onClick={() => setSelectedDate(localDateKey())}
     >
       Today
     </button>
@@ -93,7 +92,7 @@ const HomePage = () => {
 
   <h1 className="mb-2 flex flex-wrap items-baseline gap-x-3 font-display tracking-tight text-3xl sm:text-4xl font-bold">
     Games
-    <span className="text-primary-a0 text-xl sm:text-2xl">{selectedDate}</span>
+    <span className="text-primary-a0 text-xl sm:text-2xl">{formatDayHeading(selectedDate)}</span>
   </h1>
 
   <div className="w-full pb-4">
