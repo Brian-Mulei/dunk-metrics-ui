@@ -49,8 +49,8 @@ export const getStandings = async () => {
   return cachedGet("/teams/standings", 5 * MINUTE);
 };
 
-export const getGamesByDay = async (date) => {
-  return cachedGet('/game/get/date', 30 * 1000, { params: { date } });
+export const getGamesByDay = async (date, tz) => {
+  return cachedGet('/game/get/date', 30 * 1000, { params: { date, tz } });
 }
 
 export const getTeamDetails = async (teamId) => {

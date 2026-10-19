@@ -22,7 +22,8 @@ const prediction = {
 };
 
 const game = {
-  id: 99, date: '2026-10-22', startingTime: '02:30:00', venue: 'Crypto.com Arena', status: 'Scheduled',
+  id: 99, date: '2026-10-22', startingTime: '02:30:00', startTimeUtc: '2026-10-22T02:30:00Z',
+  venue: 'Crypto.com Arena', status: 'Scheduled', homeTeamRecord: '0-0', awayTeamRecord: '0-0',
   homeTeamId: 17, awayTeamId: 9, homeTeam: 'Los Angeles Lakers', awayTeam: 'Denver Nuggets',
   homeTeamScore: 0, awayTeamScore: 0, lineScores: { home: [], visitors: [] },
 };
@@ -53,7 +54,9 @@ describe('MatchComponent with a prediction', () => {
     render(<MemoryRouter><MatchComponent game={game} prediction={prediction} onPreview={onPreview} /></MemoryRouter>);
 
     expect(screen.getByLabelText('Win odds: LAL 62%, DEN 38%')).toBeInTheDocument();
-    expect(screen.getByText('02:30')).toBeInTheDocument();
+    expect(screen.getAllByText(/2:30/)).toHaveLength(2);
+    expect(screen.getByLabelText('LAL record')).toHaveTextContent('0-0');
+    expect(screen.getByLabelText('DEN record')).toHaveTextContent('0-0');
     await userEvent.click(screen.getByRole('button', { name: 'Matchup preview' }));
     expect(onPreview).toHaveBeenCalledWith(game, prediction);
   });
