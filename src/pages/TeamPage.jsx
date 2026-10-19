@@ -6,16 +6,19 @@ import PlayerModal from '../components/PlayerModal';
 import TeamStatsPanel from '../components/TeamStatsPanel';
 import GamePreviewModal from '../components/GamePreviewModal';
 import { usePredictions } from '../utils/usePredictions';
-import { byStartTime } from '../utils/GameTime';
+import { byStartTime, gameStart } from '../utils/GameTime';
 import { getTeamDetails, getTeamPlayerStats } from '../apis/apis';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 
 const TABS = [
   { key: "latest", label: "Latest" },
   { key: "players", label: "Players" },
-  { key: "teamStats", label: "Team Stats" },
+  { key: "teamStats", label: "Team Stats", shortLabel: "Stats" },
   { key: "schedule", label: "Schedule" },
 ];
+
+// leftover "Scheduled" games from last season (unplayed playoff games) are in the data, so upcoming means not yet started
+const STALE_AFTER_MS = 6 * 60 * 60 * 1000;
 
 function TeamPage() {
   const { id } = useParams();
@@ -28,7 +31,9 @@ function TeamPage() {
   const [preview, setPreview] = useState(null);
   // the games list covers every season we have; the schedule tab shows what's still to be played
   const upcomingGames = useMemo(
-    () => (teamData?.next5Games ?? []).filter((g) => g.status === "Scheduled").sort(byStartTime),
+    () => (teamData?.next5Games ?? [])
+      .filter((g) => g.status === "Scheduled" && gameStart(g).getTime() > Date.now() - STALE_AFTER_MS)
+      .sort(byStartTime),
     [teamData]
   );
   const predictions = usePredictions(upcomingGames);
@@ -82,7 +87,7 @@ function TeamPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 bg-surface-a0 border border-surface-a40 rounded-xl">
+    <div className="p-3 sm:p-6 bg-surface-a0 border border-surface-a40 rounded-xl">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6 text-center sm:text-left">
         <img
           src={getTeamLogoUrl(teamData.teamId)}
@@ -100,18 +105,24 @@ function TeamPage() {
         </div>
       </div>
 
-      <div className="mb-4 overflow-x-auto no-scrollbar">
-        <div className="flex border-b border-surface-a40">
+      <div className="mb-4">
+        <div className="grid grid-cols-4 border-b border-surface-a40">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`py-2 px-4 whitespace-nowrap font-semibold uppercase tracking-wide text-sm ${activeTab === tab.key
+              aria-label={tab.label}
+              className={`py-2 px-0.5 sm:px-4 whitespace-nowrap font-semibold uppercase tracking-normal sm:tracking-wide text-[11px] min-[360px]:text-xs sm:text-sm ${activeTab === tab.key
                 ? "border-b-2 border-primary-a0 text-primary-a0"
                 : "text-muted hover:text-light-a0"
                 }`}
             >
-              {tab.label}
+              {tab.shortLabel ? (
+                <>
+                  <span className="sm:hidden">{tab.shortLabel}</span>
+                  <span className="hidden sm:inline">{tab.label}</span>
+                </>
+              ) : tab.label}
             </button>
           ))}
         </div>

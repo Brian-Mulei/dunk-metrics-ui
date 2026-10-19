@@ -81,10 +81,12 @@ const HomePage = () => {
 
   return (
     <div className="p-1 sm:p-4 flex flex-col">
-  <div className="w-full flex flex-wrap justify-end gap-2 mb-4">
+  <div className="mb-4 flex w-full items-stretch justify-end gap-2">
+    <div className="min-w-0 flex-1 sm:flex-none">
     <GameCalendar value={selectedDate} onChange={setSelectedDate} />
+    </div>
     <button
-      className="rounded-md bg-primary-a0 px-4 py-2 font-semibold uppercase tracking-wide text-dark-a0 hover:bg-primary-a10"
+      className="shrink-0 rounded-md bg-primary-a0 px-3 py-2 text-sm font-semibold uppercase tracking-wide text-dark-a0 hover:bg-primary-a10 sm:px-4 sm:text-base"
       onClick={() => setSelectedDate(localDateKey())}
     >
       Today
@@ -111,7 +113,7 @@ const HomePage = () => {
   )}
 
   <div className="w-full pb-4">
-    <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-3 pb-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 min-[1800px]:grid-cols-3 gap-x-3 pb-4">
       {games.length === 0 && <NoGamesCard />}
       {games.map((game) => (
         <div key={game.id} className="text-light-a0">
