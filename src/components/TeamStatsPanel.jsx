@@ -17,14 +17,14 @@ const Card = ({ title, children }) => (
 );
 
 const ScoringRow = ({ label, value, rank, teams, signed = false }) => (
-  <div className="flex items-baseline justify-between border-t border-surface-a40 py-2 first:border-t-0 first:pt-0">
-    <span className="text-muted">{label}</span>
-    <span className="flex items-baseline gap-3">
+  <div className="border-t border-surface-a40 py-2 first:border-t-0 first:pt-0">
+    <div className="text-sm text-muted">{label}</div>
+    <div className="flex flex-wrap items-baseline justify-between gap-x-3">
       <span className="scoreboard text-2xl font-bold">
         {signed && value > 0 ? "+" : ""}{formatStat(value)}
       </span>
-      {rank && <span className="w-16 text-right text-xs uppercase tracking-wider text-muted">{ordinal(rank)} of {teams}</span>}
-    </span>
+      {rank && <span className="whitespace-nowrap text-xs uppercase tracking-wider text-muted">{ordinal(rank)} of {teams}</span>}
+    </div>
   </div>
 );
 
@@ -122,7 +122,7 @@ const TeamStatsPanel = ({ teamId, onSelectPlayer }) => {
             {stats.leaders.length === 0 ? (
               <p className="text-muted">No player stats for this team yet.</p>
             ) : (
-              <ul className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 min-[1700px]:grid-cols-3 gap-2">
                 {stats.leaders.map((leader) => (
                   <li key={leader.key}>
                     <button

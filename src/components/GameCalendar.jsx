@@ -124,18 +124,22 @@ const GameCalendar = ({ value, onChange }) => {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="flex items-center gap-2 rounded-md border border-surface-a40 bg-surface-a0 px-3 py-2 text-light-a0 hover:border-primary-a0"
+        className="flex w-full min-w-0 items-center gap-2 rounded-md border border-surface-a40 bg-surface-a0 px-3 py-2 text-light-a0 hover:border-primary-a0 sm:w-auto"
       >
-        <CalendarDays className="h-4 w-4 text-primary-a0" />
-        <span>{formatDayHeading(value)}</span>
+        <CalendarDays className="h-4 w-4 shrink-0 text-primary-a0" />
+        <span className="truncate sm:hidden">{formatShortDay(value)}</span>
+        <span className="hidden sm:inline">{formatDayHeading(value)}</span>
         {selectedInfo.cupGames > 0 && <span className="h-2 w-2 rounded-full bg-score" aria-hidden="true" />}
       </button>
+
+      {open && <div className="fixed inset-0 z-40 bg-black/60 sm:hidden" aria-hidden="true" onClick={() => setOpen(false)} />}
 
       {open && (
         <div
           role="dialog"
           aria-label="Pick a date"
-          className="absolute right-0 z-40 mt-2 w-[min(22rem,calc(100vw-1.5rem))] rounded-xl border border-surface-a40 bg-surface-a0 p-3 shadow-2xl"
+          className="fixed inset-x-3 top-20 z-50 mx-auto max-w-sm rounded-xl border border-surface-a40 bg-surface-a0 p-3 shadow-2xl
+            sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-[22rem] sm:max-w-none"
         >
           <div className="mb-2 flex items-center justify-between">
             <button type="button" onClick={() => shiftMonth(-1)} aria-label="Previous month" className="rounded-md p-1.5 hover:bg-surface-a10">
@@ -198,6 +202,11 @@ const GameCalendar = ({ value, onChange }) => {
       )}
     </div>
   );
+};
+
+const formatShortDay = (dateKey) => {
+  const [y, m, d] = dateKey.split("-").map(Number);
+  return new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" }).format(new Date(y, m - 1, d));
 };
 
 const formatShort = (dateKey) => {
