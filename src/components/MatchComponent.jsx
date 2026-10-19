@@ -52,6 +52,11 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
       {/* Game Header */}
       <div className="px-3 py-2 sm:px-4 border-b border-surface-a40 text-center text-muted text-xs sm:text-sm">
  
+        {game.cupStage && (
+          <div className="mb-1">
+            <span className="rounded-full bg-score/15 px-2 py-0.5 text-[11px] font-semibold text-score">NBA Cup · {game.cupStage}</span>
+          </div>
+        )}
         <span>{isLong ? `${formatGameDate(game)} · ${formatGameTime(game)}` : formatGameDate(game)}</span>
         <span className="mx-1 sm:mx-2">•</span>
         <span>{venue}</span>
