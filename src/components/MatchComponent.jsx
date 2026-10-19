@@ -63,14 +63,14 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
       </div>
 
       {/* Teams and Scores */}
-      <div className="flex items-center justify-between p-2 sm:p-4 text-xs sm:text-lg">
+      <div className="flex items-center justify-between gap-1 p-2 sm:p-4 text-xs sm:text-lg">
         {/* Home Team */}
         <div className="flex min-w-0 flex-1 items-center cursor-pointer" title={homeTeam} onClick={() => handleClick(homeTeamId)} >
           <img
             loading="lazy"
             src={homeLogoUrl}
             alt={`${homeTeam} logo`}
-            className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 mr-2"
+            className="w-7 h-7 sm:w-10 sm:h-10 shrink-0 mr-1.5 sm:mr-2 max-[359px]:hidden"
           />
           <span className="shrink-0 leading-tight">
             <span className="block font-display text-base sm:text-lg font-bold text-light-a0">{homeLogoCode}</span>
@@ -82,12 +82,12 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
         <div className="flex shrink-0 items-center">
           {showScores ? (
             <>
-              <span className={`scoreboard text-2xl sm:text-3xl font-bold mx-1.5 sm:mx-3 ${homeStyle}`}>{homeTeamScore}</span>
+              <span className={`scoreboard text-xl min-[400px]:text-2xl sm:text-3xl font-bold mx-1 sm:mx-3 ${homeStyle}`}>{homeTeamScore}</span>
               <span className="text-xl text-surface-a50 mx-1">–</span>
-              <span className={`scoreboard text-2xl sm:text-3xl font-bold mx-1.5 sm:mx-3 ${awayStyle}`}>{awayTeamScore}</span>
+              <span className={`scoreboard text-xl min-[400px]:text-2xl sm:text-3xl font-bold mx-1 sm:mx-3 ${awayStyle}`}>{awayTeamScore}</span>
             </>
           ) : (
-            <span className="font-display tracking-tight text-xl sm:text-2xl font-bold text-muted mx-2 sm:mx-4 whitespace-nowrap">
+            <span className="font-display tracking-tight text-lg min-[400px]:text-xl sm:text-2xl font-bold text-muted mx-1 sm:mx-4 whitespace-nowrap">
               {formatGameTime(game)}
             </span>
           )}
@@ -96,7 +96,7 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
 
         {/* Away Team */}
         <div className="flex min-w-0 flex-1 items-center justify-end cursor-pointer" title={awayTeam} onClick={() => handleClick(awayTeamId)}>
-          <span className="shrink-0 leading-tight text-right mr-2">
+          <span className="shrink-0 leading-tight text-right mr-1.5 sm:mr-2">
             <span className="block font-display text-base sm:text-lg font-bold">{awayLogoCode}</span>
             {awayTeamRecord && <span className="block text-xs text-muted tabular-nums" aria-label={`${awayLogoCode} record`}>{awayTeamRecord}</span>}
           </span>
@@ -104,7 +104,7 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
             loading="lazy"
             src={awayLogoUrl}
             alt={`${awayTeam} logo`}
-            className="w-8 h-8 sm:w-10 sm:h-10 shrink-0"
+            className="w-7 h-7 sm:w-10 sm:h-10 shrink-0 max-[359px]:hidden"
           />
         </div>
       </div>
