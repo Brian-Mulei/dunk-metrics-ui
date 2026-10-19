@@ -6,6 +6,8 @@ import NoGamesCard from '../components/NoGamesCard.jsx';
 import GamePreviewModal from '../components/GamePreviewModal.jsx';
 import { usePredictions } from '../utils/usePredictions';
 import { formatDayHeading, localDateKey, userTimeZone } from '../utils/GameTime';
+import GameCalendar, { dayInfo, useSeasonCalendar } from '../components/GameCalendar.jsx';
+import { espnSeasonFor } from '../utils/SeasonCalendar';
 const HomePage = () => {
 
     // the API wants dd-MM-yyyy; split the string so no Date parsing can shift the day
@@ -19,6 +21,10 @@ const HomePage = () => {
       const predictions = usePredictions(games);
  
   const [selectedDate, setSelectedDate] = useState(localDateKey());
+  const seasonCalendar = useSeasonCalendar(espnSeasonFor(selectedDate));
+  const selectedDay = seasonCalendar
+    ? dayInfo(selectedDate, seasonCalendar, new Map(seasonCalendar.days.map((d) => [d.date, d])))
+    : null;
   
   useEffect(() => {
     fetchGames(formatDate(selectedDate));
@@ -76,12 +82,7 @@ const HomePage = () => {
   return (
     <div className="p-1 sm:p-4 flex flex-col">
   <div className="w-full flex flex-wrap justify-end gap-2 mb-4">
-    <input
-      type="date"
-      className="rounded-md border border-surface-a40 bg-surface-a0 px-3 py-2 text-light-a0"
-      value={selectedDate}
-      onChange={(e) => setSelectedDate(e.target.value)}
-    />
+    <GameCalendar value={selectedDate} onChange={setSelectedDate} />
     <button
       className="rounded-md bg-primary-a0 px-4 py-2 font-semibold uppercase tracking-wide text-dark-a0 hover:bg-primary-a10"
       onClick={() => setSelectedDate(localDateKey())}
@@ -94,6 +95,20 @@ const HomePage = () => {
     Games
     <span className="text-primary-a0 text-xl sm:text-2xl">{formatDayHeading(selectedDate)}</span>
   </h1>
+
+  {selectedDay && (selectedDay.events.length > 0 || selectedDay.cupGames > 0 || selectedDay.preseason) && (
+    <ul className="mb-2 flex flex-wrap gap-2" aria-label="On this day">
+      {selectedDay.preseason && <li className="rounded-full bg-surface-a40 px-3 py-1 text-xs font-semibold">Preseason</li>}
+      {selectedDay.cupGames > 0 && (
+        <li className="rounded-full bg-score/15 px-3 py-1 text-xs font-semibold text-score">
+          NBA Cup{selectedDay.cupStage ? ` · ${selectedDay.cupStage}` : ""}
+        </li>
+      )}
+      {selectedDay.events.filter((e) => e.key !== "nbaCup").map((e) => (
+        <li key={e.key} className="rounded-full bg-surface-a10 border border-surface-a40 px-3 py-1 text-xs font-semibold">{e.label}</li>
+      ))}
+    </ul>
+  )}
 
   <div className="w-full pb-4">
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-3 pb-4">
