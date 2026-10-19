@@ -34,6 +34,9 @@ export default {
         score: "#FFC247",
         win: "#5BE49B",
         loss: "#FF5D6C",
+        // season calendar markers
+        allstar: "#A78BFA",
+        playoffs: "#38BDF8",
         // arena navy, a20 is the page background and a0/a10 are panels on top of it
         surface: {
           a0: "#131A2B",

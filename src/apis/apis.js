@@ -88,3 +88,7 @@ export const getTeamStats = async (teamId, season) => {
 export const getAwards = async (season) => {
   return cachedGet('/awards', 10 * MINUTE, { params: { season } });
 }
+
+export const getGameCalendar = async (season, tz) => {
+  return cachedGet('/game/calendar', 30 * MINUTE, { params: { season, tz } });
+}
