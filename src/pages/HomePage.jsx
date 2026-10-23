@@ -5,16 +5,10 @@ import { getGamesByDay } from '../apis/apis.js';
 import NoGamesCard from '../components/NoGamesCard.jsx';
 import GamePreviewModal from '../components/GamePreviewModal.jsx';
 import { usePredictions } from '../utils/usePredictions';
-import { formatDayHeading, localDateKey, userTimeZone } from '../utils/GameTime';
+import { apiDateParam, formatDayHeading, localDateKey, userTimeZone } from '../utils/GameTime';
 import GameCalendar, { dayInfo, useSeasonCalendar } from '../components/GameCalendar.jsx';
 import { espnSeasonFor } from '../utils/SeasonCalendar';
 const HomePage = () => {
-
-    // the API wants dd-MM-yyyy; split the string so no Date parsing can shift the day
-    const formatDate = (dateKey) => {
-        const [year, month, day] = dateKey.split("-");
-        return `${day}-${month}-${year}`;
-      };
 
       const [games, setGames] = useState(null);
       const [preview, setPreview] = useState(null);
@@ -27,7 +21,7 @@ const HomePage = () => {
     : null;
   
   useEffect(() => {
-    fetchGames(formatDate(selectedDate));
+    fetchGames(apiDateParam(selectedDate));
   }, [selectedDate]);
 
   const fetchGames = async (date) => {
