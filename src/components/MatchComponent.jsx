@@ -2,7 +2,9 @@ import React from 'react';
 import { getTeamLogoUrl } from '../utils/LogoPicker';
 import { getTeamCode } from '../utils/LogoPicker';
 import WinOddsBar from './WinOddsBar';
-import { formatGameDate, formatGameTime } from '../utils/GameTime';
+import { formatGameDate, formatGameTime, gameStart } from '../utils/GameTime';
+import { useParlays } from '../utils/useParlays';
+import { pickProbability } from '../utils/parlays';
 import { formatDate } from "../utils/DateFormater";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -34,6 +36,9 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
   const isScheduled = status === "Scheduled";
 
   const navigate = useNavigate();
+  const { openSlip, pickFor, togglePick } = useParlays();
+  const canPick = isScheduled && gameStart(game).getTime() > Date.now();
+  const pickedTeamId = pickFor(id);
 
     const handleClick = (id) => {
         navigate(`/team/${id}`);
@@ -153,6 +158,31 @@ const MatchComponent = ({ game, isLong = true, prediction, onPreview }) => {
         </div>
       }
 
+
+      {canPick && (
+        <div className="border-t border-surface-a40 px-3 py-2.5">
+          <div className="mb-1.5 flex items-baseline justify-between gap-2 text-[11px] uppercase tracking-wider text-muted">
+            <span className="font-semibold">Pick to win</span>
+            <span className="truncate">Adding to {openSlip ? openSlip.name : "a new slip"}</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {[[homeTeamId, homeLogoCode], [awayTeamId, awayLogoCode]].map(([teamId, code]) => {
+              const picked = pickedTeamId === teamId;
+              return (
+                <button
+                  key={teamId}
+                  type="button"
+                  aria-pressed={picked}
+                  onClick={() => togglePick(game, teamId, pickProbability(prediction, teamId))}
+                  className={`rounded-md border py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${picked ? "border-primary-a0 bg-primary-a0 text-dark-a0" : "border-surface-a40 text-light-a0 hover:border-primary-a0 hover:bg-surface-a10"}`}
+                >
+                  {picked ? `${code} picked` : `Pick ${code}`}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {prediction && (
         <div className="space-y-2 border-t border-surface-a40 px-3 py-3">

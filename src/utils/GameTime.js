@@ -25,3 +25,9 @@ export const formatDayHeading = (dateKey) => {
   return new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })
     .format(new Date(y, m - 1, d));
 };
+
+// the games API wants dd-MM-yyyy; split the string so no Date parsing can shift the day
+export const apiDateParam = (dateKey) => {
+  const [year, month, day] = dateKey.split("-");
+  return `${day}-${month}-${year}`;
+};
