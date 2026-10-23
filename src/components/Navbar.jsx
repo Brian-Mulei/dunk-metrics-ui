@@ -1,14 +1,18 @@
 import { NavLink } from 'react-router-dom';
+import { useParlays } from '../utils/useParlays';
 
 export const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/standings", label: "Standings" },
   { to: "/stats", label: "Stats" },
   { to: "/awards", label: "Awards" },
+  { to: "/parlays", label: "Parlays" },
   { to: "/news", label: "News" },
 ];
 
 const Navbar = ({ onToggleTeamSidebar, onToggleMenu }) => {
+  const { openSlip } = useParlays();
+  const legCount = openSlip?.legs.length ?? 0;
   return (
     <nav className="sticky top-0 z-50 h-16 shrink-0 bg-surface-a30 text-light-a0 px-3 sm:px-4 flex items-center justify-between border-b-2 border-primary-a0">
       <div className="flex items-center gap-3">
@@ -26,6 +30,9 @@ const Navbar = ({ onToggleTeamSidebar, onToggleMenu }) => {
             className={({ isActive }) => `rounded-md px-3 py-1.5 font-semibold uppercase tracking-wide text-sm transition-colors ${isActive ? "bg-primary-a0 text-dark-a0" : "text-light-a0 hover:text-primary-a10"}`}
           >
             {link.label}
+            {link.to === "/parlays" && legCount > 0 && (
+              <span className="ml-1.5 rounded-full bg-score px-1.5 text-[11px] text-dark-a0 tabular-nums" aria-label={`${legCount} picks`}>{legCount}</span>
+            )}
           </NavLink>
         ))}
       </div>
